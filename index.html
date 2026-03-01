@@ -903,19 +903,24 @@ async function syncFromSheets() {
     if (!response.ok) throw new Error('songs.json not found');
     const data = await response.json();
     const imported = data.songs || [];
-    const existingNames = new Set(songs.map(s => s.name));
     let added = 0;
+    let updated = 0;
     imported.forEach(s => {
-      if (!existingNames.has(s.name)) {
+      const existingIdx = songs.findIndex(x => x.name === s.name);
+      if (existingIdx === -1) {
         songs.push({ ...s, id: nextId++ });
         added++;
+      } else {
+        // Update existing song with latest lyrics and metadata
+        songs[existingIdx] = { ...songs[existingIdx], ...s };
+        updated++;
       }
     });
-    if (added > 0) {
+    if (added > 0 || updated > 0) {
       saveSongs();
       populateFilters();
       applyFilters();
-      showToast('✅ ' + added + ' புதிய பாடல்கள் sync ஆனது!');
+      showToast('✅ ' + added + ' added, ' + updated + ' updated!');
     } else {
       showToast('✅ Already up to date! ' + songs.length + ' songs loaded');
     }
