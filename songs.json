@@ -1,7 +1,3 @@
-I have updated the JSON data by removing the songs with IDs 13 ("காமாட்சி அம்பா") and 14 ("முருகனே செந்தில் முருகனே"). I also re-indexed the IDs so they remain sequential.
-
-Here is the updated JSON:
-
 ```json
 {
   "version": 1,
@@ -160,7 +156,7 @@ Here is the updated JSON:
       "composer": "பாபநாசம் சிவன்",
       "dateAdded": "2026-03-01",
       "lyrics": "பல்லவி:\nஎன் அப்பன் அல்லவா என் தாயும் அல்லவா\nபொன்னப்பன் அல்லவா பொன்னம்பலத்தவா\n\nஅனுபல்லவி:\nசொப்பனமோ எந்தன் அப்பன் திருவருள்\nகற்பிதமோ என்ன அற்புதம் இதுவே\n\nசரணம்:\nஆடிய பாதனே அம்பல வாணனே\nநின் ஆழ்ந்த கருணையை ஏழை அறிவேனோ",
-      "notes": "From the movie Nandanar"
+    \
     }
   ]
 }
