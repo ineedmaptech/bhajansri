@@ -899,7 +899,7 @@ async function syncFromSheets() {
   }
   showToast('🔄 Syncing songs...');
   try {
-    const response = await fetch('/songs.json?t=' + Date.now());
+    const response = await fetch('/bhajansri/songs.json?t=' + Date.now());
     if (!response.ok) throw new Error('songs.json not found');
     const data = await response.json();
     const imported = data.songs || [];
@@ -954,9 +954,9 @@ if (navigator.onLine && SHEETS_CSV_URL) {
 </script>
 <script>
 if ('serviceWorker' in navigator) {
-  const isNetlify = window.location.hostname.includes('netlify.app') ||
-                    window.location.hostname.includes('bhajansri');
-  if (isNetlify) {
+  const isGithub = window.location.hostname.includes('github.io');
+  const isNetlify = window.location.hostname.includes('netlify.app');
+  if (isGithub || isNetlify) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js')
         .then(reg => console.log('SW registered:', reg.scope))

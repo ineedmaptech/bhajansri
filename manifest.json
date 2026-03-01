@@ -1,8 +1,8 @@
 {
-  "name": "ஸ்ரீ பஜன் சங்கீதம்",
-  "short_name": "பஜன்",
+  "name": "\u0bb8\u0bcd\u0bb0\u0bc0 \u0baa\u0b9c\u0ba9\u0bcd \u0b9a\u0b99\u0bcd\u0b95\u0bc0\u0ba4\u0bae\u0bcd",
+  "short_name": "\u0baa\u0b9c\u0ba9\u0bcd",
   "description": "Tamil Devotional Song Database",
-  "start_url": "/",
+  "start_url": "/bhajansri/",
   "display": "standalone",
   "background_color": "#FFF8E7",
   "theme_color": "#FF6B00",
@@ -20,5 +20,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "scope": "/bhajansri/"
 }
