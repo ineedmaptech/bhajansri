@@ -432,12 +432,8 @@
 </div>
 
 <div class="sync-toolbar">
-  <button class="sync-btn export" onclick="exportJSON()">📤 Export Backup</button>
-  <button class="sync-btn import-btn" onclick="document.getElementById('importFile').click()">📥 Import JSON</button>
-  <button class="sync-btn backup" onclick="exportCSV()">📊 Export CSV</button>
-  <button class="sync-btn" style="background:#F3E5F5;color:#6A1B9A;border:1px solid #CE93D8;" onclick="syncDefaults()">🔄 Sync New Songs</button>
   <button class="sync-btn" style="background:#E8F5E9;color:#1B5E20;border:1px solid #81C784;" onclick="syncFromSheets()">☁️ Sync Latest Songs</button>
-  <input type="file" id="importFile" accept=".json" style="display:none" onchange="importJSON(event)">
+  <button class="sync-btn" style="background:#FCE4EC;color:#B71C1C;border:1px solid #EF9A9A;" onclick="forceSync()">🔄 Force Sync</button>
   <span class="last-saved" id="lastSaved"></span>
 </div>
 
@@ -945,6 +941,30 @@ function parseCSVRow(row) {
   }
   cols.push(current);
   return cols;
+}
+
+// ── Force Sync ────────────────────────────────────
+async function forceSync() {
+  if (!navigator.onLine) {
+    showToast('📵 Offline — cannot force sync');
+    return;
+  }
+  if (!confirm('This will clear all local data and reload from server. Continue?')) return;
+  showToast('🔄 Force syncing...');
+  try {
+    const response = await fetch('/bhajansri/songs.json?t=' + Date.now());
+    if (!response.ok) throw new Error('songs.json not found');
+    const data = await response.json();
+    // Clear everything and reload fresh
+    songs = data.songs || [];
+    nextId = songs.length + 1;
+    saveSongs();
+    populateFilters();
+    applyFilters();
+    showToast('✅ Force sync done! ' + songs.length + ' songs loaded fresh!');
+  } catch(e) {
+    showToast('⚠️ Force sync failed: ' + e.message);
+  }
 }
 
 // ── Init ───────────────────────────────────────────

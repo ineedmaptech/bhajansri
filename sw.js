@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bhajan-v4';
+const CACHE_NAME = 'bhajan-v5';
 const ASSETS = [
   '/',
   '/index.html',
