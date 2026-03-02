@@ -440,7 +440,7 @@
 <div class="controls">
   <div class="search-box">
     <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="பாடல் தேடுங்கள்... (song name, deity, composer)" oninput="applyFilters()">
+    <input type="text" id="searchInput" placeholder="Search in Tamil or English... (Mohanam, Krishna, Guru)" oninput="applyFilters()">
   </div>
   <div class="filters">
     <select class="filter-select" id="filterRagam" onchange="applyFilters()">
@@ -729,18 +729,74 @@ function renderSongs(list) {
   });
 }
 
+// ── Phonetic Tamil romanization map ──────────────
+// Converts Tamil text to phonetic English for matching
+function tamilToPhonetic(text) {
+  if (!text) return '';
+  // First apply vowel markers (must come before consonants)
+  let result = text
+    // Vowel markers (after consonant)
+    .replace(/கா/g,'kaa').replace(/கி/g,'ki').replace(/கீ/g,'kee').replace(/கு/g,'ku').replace(/கூ/g,'koo').replace(/கெ/g,'ke').replace(/கே/g,'kae').replace(/கை/g,'kai').replace(/கொ/g,'ko').replace(/கோ/g,'koh').replace(/க்/g,'k')
+    .replace(/சா/g,'chaa').replace(/சி/g,'chi').replace(/சீ/g,'chee').replace(/சு/g,'chu').replace(/சூ/g,'choo').replace(/செ/g,'che').replace(/சே/g,'chae').replace(/சை/g,'chai').replace(/சொ/g,'cho').replace(/சோ/g,'choh').replace(/ச்/g,'ch')
+    .replace(/தா/g,'thaa').replace(/தி/g,'thi').replace(/தீ/g,'thee').replace(/து/g,'thu').replace(/தூ/g,'thoo').replace(/தெ/g,'the').replace(/தே/g,'thae').replace(/தை/g,'thai').replace(/தொ/g,'tho').replace(/தோ/g,'thoh').replace(/த்/g,'th')
+    .replace(/நா/g,'naa').replace(/நி/g,'ni').replace(/நீ/g,'nee').replace(/நு/g,'nu').replace(/நூ/g,'noo').replace(/நெ/g,'ne').replace(/நே/g,'nae').replace(/நை/g,'nai').replace(/நொ/g,'no').replace(/நோ/g,'noh').replace(/ந்/g,'n')
+    .replace(/பா/g,'paa').replace(/பி/g,'pi').replace(/பீ/g,'pee').replace(/பு/g,'pu').replace(/பூ/g,'poo').replace(/பெ/g,'pe').replace(/பே/g,'pae').replace(/பை/g,'pai').replace(/பொ/g,'po').replace(/போ/g,'poh').replace(/ப்/g,'p')
+    .replace(/மா/g,'maa').replace(/மி/g,'mi').replace(/மீ/g,'mee').replace(/மு/g,'mu').replace(/மூ/g,'moo').replace(/மெ/g,'me').replace(/மே/g,'mae').replace(/மை/g,'mai').replace(/மொ/g,'mo').replace(/மோ/g,'moh').replace(/ம்/g,'m')
+    .replace(/யா/g,'yaa').replace(/யி/g,'yi').replace(/யீ/g,'yee').replace(/யு/g,'yu').replace(/யூ/g,'yoo').replace(/யெ/g,'ye').replace(/யே/g,'yae').replace(/யை/g,'yai').replace(/யொ/g,'yo').replace(/யோ/g,'yoh').replace(/ய்/g,'y')
+    .replace(/ரா/g,'raa').replace(/ரி/g,'ri').replace(/ரீ/g,'ree').replace(/ரு/g,'ru').replace(/ரூ/g,'roo').replace(/ரெ/g,'re').replace(/ரே/g,'rae').replace(/ரை/g,'rai').replace(/ரொ/g,'ro').replace(/ரோ/g,'roh').replace(/ர்/g,'r')
+    .replace(/லா/g,'laa').replace(/லி/g,'li').replace(/லீ/g,'lee').replace(/லு/g,'lu').replace(/லூ/g,'loo').replace(/லெ/g,'le').replace(/லே/g,'lae').replace(/லை/g,'lai').replace(/லொ/g,'lo').replace(/லோ/g,'loh').replace(/ல்/g,'l')
+    .replace(/வா/g,'vaa').replace(/வி/g,'vi').replace(/வீ/g,'vee').replace(/வு/g,'vu').replace(/வூ/g,'voo').replace(/வெ/g,'ve').replace(/வே/g,'vae').replace(/வை/g,'vai').replace(/வொ/g,'vo').replace(/வோ/g,'voh').replace(/வ்/g,'v')
+    .replace(/னா/g,'naa').replace(/னி/g,'ni').replace(/னீ/g,'nee').replace(/னு/g,'nu').replace(/னூ/g,'noo').replace(/னெ/g,'ne').replace(/னே/g,'nae').replace(/னை/g,'nai').replace(/னொ/g,'no').replace(/னோ/g,'noh').replace(/ன்/g,'n')
+    .replace(/ளா/g,'laa').replace(/ளி/g,'li').replace(/ளீ/g,'lee').replace(/ளு/g,'lu').replace(/ளூ/g,'loo').replace(/ளெ/g,'le').replace(/ளே/g,'lae').replace(/ளை/g,'lai').replace(/ளொ/g,'lo').replace(/ளோ/g,'loh').replace(/ள்/g,'l')
+    .replace(/றா/g,'raa').replace(/றி/g,'ri').replace(/றீ/g,'ree').replace(/று/g,'ru').replace(/றூ/g,'roo').replace(/றெ/g,'re').replace(/றே/g,'rae').replace(/றை/g,'rai').replace(/றொ/g,'ro').replace(/றோ/g,'roh').replace(/ற்/g,'r')
+    .replace(/ணா/g,'naa').replace(/ணி/g,'ni').replace(/ணீ/g,'nee').replace(/ணு/g,'nu').replace(/ணூ/g,'noo').replace(/ணெ/g,'ne').replace(/ணே/g,'nae').replace(/ணை/g,'nai').replace(/ணொ/g,'no').replace(/ணோ/g,'noh').replace(/ண்/g,'n')
+    .replace(/ஜா/g,'jaa').replace(/ஜி/g,'ji').replace(/ஜீ/g,'jee').replace(/ஜு/g,'ju').replace(/ஜூ/g,'joo').replace(/ஜெ/g,'je').replace(/ஜே/g,'jae').replace(/ஜை/g,'jai').replace(/ஜொ/g,'jo').replace(/ஜோ/g,'joh').replace(/ஜ்/g,'j')
+    .replace(/ஹா/g,'haa').replace(/ஹி/g,'hi').replace(/ஹீ/g,'hee').replace(/ஹு/g,'hu').replace(/ஹூ/g,'hoo').replace(/ஹெ/g,'he').replace(/ஹே/g,'hae').replace(/ஹை/g,'hai').replace(/ஹொ/g,'ho').replace(/ஹோ/g,'hoh').replace(/ஹ்/g,'h')
+    // Standalone consonants with inherent 'a' vowel
+    .replace(/க/g,'ka').replace(/ங/g,'nga').replace(/ச/g,'cha').replace(/ஞ/g,'gna')
+    .replace(/ட/g,'ta').replace(/ண/g,'na').replace(/த/g,'tha').replace(/ந/g,'na')
+    .replace(/ப/g,'pa').replace(/ம/g,'ma').replace(/ய/g,'ya').replace(/ர/g,'ra')
+    .replace(/ல/g,'la').replace(/வ/g,'va').replace(/ழ/g,'zha').replace(/ள/g,'la')
+    .replace(/ற/g,'ra').replace(/ன/g,'na').replace(/ஜ/g,'ja').replace(/ஷ/g,'sha')
+    .replace(/ஸ/g,'sa').replace(/ஹ/g,'ha')
+    // Standalone vowels
+    .replace(/அ/g,'a').replace(/ஆ/g,'aa').replace(/இ/g,'i').replace(/ஈ/g,'ee')
+    .replace(/உ/g,'u').replace(/ஊ/g,'oo').replace(/எ/g,'e').replace(/ஏ/g,'ae')
+    .replace(/ஐ/g,'ai').replace(/ஒ/g,'o').replace(/ஓ/g,'oh').replace(/ஔ/g,'au')
+    // Remove remaining Tamil chars
+    .replace(/[^ -]/g,'')
+    .toLowerCase();
+  return result;
+}
+
+function translateSearch(term) { return term; }
+
 function applyFilters() {
-  const search = document.getElementById('searchInput').value.toLowerCase();
+  const rawSearch = document.getElementById('searchInput').value.toLowerCase();
+  const tamilSearch = translateSearch(rawSearch);
+  const search = rawSearch;
   const ragam = document.getElementById('filterRagam').value;
   const thalam = document.getElementById('filterThalam').value;
   const deity = document.getElementById('filterDeity').value;
   const category = document.getElementById('filterCategory').value;
   let filtered = songs.filter(s => {
+    const phoneticSearch = tamilToPhonetic(search);
+    const searchIn = (val) => {
+      if (!val) return false;
+      const valLower = val.toLowerCase();
+      const valPhonetic = tamilToPhonetic(val);
+      return valLower.includes(search) ||
+             valPhonetic.includes(search) ||
+             valPhonetic.includes(phoneticSearch);
+    };
     const matchSearch = !search ||
-      s.name.toLowerCase().includes(search) ||
-      (s.deity && s.deity.toLowerCase().includes(search)) ||
-      (s.composer && s.composer.toLowerCase().includes(search)) ||
-      (s.lyrics && s.lyrics.toLowerCase().includes(search));
+      searchIn(s.name) ||
+      searchIn(s.deity) ||
+      searchIn(s.composer) ||
+      searchIn(s.ragam) ||
+      searchIn(s.thalam) ||
+      searchIn(s.category) ||
+      searchIn(s.lyrics);
     return matchSearch &&
       (!ragam || s.ragam === ragam) &&
       (!thalam || s.thalam === thalam) &&
