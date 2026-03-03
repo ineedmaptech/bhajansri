@@ -772,9 +772,7 @@ function tamilToPhonetic(text) {
 function translateSearch(term) { return term; }
 
 function applyFilters() {
-  const rawSearch = document.getElementById('searchInput').value.toLowerCase();
-  const tamilSearch = translateSearch(rawSearch);
-  const search = rawSearch;
+  const search = document.getElementById('searchInput').value.toLowerCase();
   const ragam = document.getElementById('filterRagam').value;
   const thalam = document.getElementById('filterThalam').value;
   const deity = document.getElementById('filterDeity').value;
@@ -1028,8 +1026,8 @@ loadSongs();
 updateOnlineStatus();
 populateFilters();
 applyFilters();
-// Auto sync from Sheets on load if online
-if (navigator.onLine && SHEETS_CSV_URL) {
+// Auto sync on load if online
+if (navigator.onLine) {
   setTimeout(syncFromSheets, 1500);
 }
 </script>
@@ -1039,9 +1037,9 @@ if ('serviceWorker' in navigator) {
   const isNetlify = window.location.hostname.includes('netlify.app');
   if (isGithub || isNetlify) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('SW registered:', reg.scope))
-        .catch(err => console.log('SW error:', err));
+      navigator.serviceWorker.register('/bhajansri/sw.js')
+        .then(reg => console.log('SW registered'))
+        .catch(err => console.log('SW skipped:', err.message));
     });
   }
 }
