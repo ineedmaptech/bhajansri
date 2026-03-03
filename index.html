@@ -2,447 +2,682 @@
 <html lang="ta">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ஸ்ரீ பஜன் சங்கீதம்</title>
+<link rel="manifest" href="/bhajansri/manifest.json">
+<meta name="theme-color" content="#1a0a2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="பஜன்">
-<link rel="apple-touch-icon" href="icon-192.png">
-<meta name="theme-color" content="#FF6B00">
-<title>ஸ்ரீ பஜன் சங்கீதம்</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;600;700&family=Cinzel+Decorative:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="/bhajansri/icon-192.png">
+<link rel="apple-touch-icon" href="/bhajansri/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --saffron: #FF6B00;
-    --deep-saffron: #E85D00;
-    --gold: #FFB300;
-    --cream: #FFF8E7;
-    --deep: #1A0A00;
-    --maroon: #7B1E00;
-    --lotus: #C2185B;
-    --card-bg: #FFFDF5;
-    --shadow: rgba(255,107,0,0.15);
-  }
+:root {
+  --bg-deep: #0f0720;
+  --bg-card: #1a0e30;
+  --bg-surface: #231545;
+  --bg-input: #2a1a50;
+  --accent-gold: #f0c040;
+  --accent-saffron: #ff8c42;
+  --accent-vermillion: #e84545;
+  --text-primary: #f0e6ff;
+  --text-secondary: #b8a0d8;
+  --text-muted: #7a6498;
+  --border-subtle: rgba(240,192,64,0.15);
+  --border-glow: rgba(240,192,64,0.4);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 20px rgba(240,192,64,0.15);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --font-tamil: 'Noto Sans Tamil', sans-serif;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-  body {
-    font-family: 'Lato', 'Noto Sans Tamil', sans-serif;
-    background: var(--cream);
-    color: var(--deep);
-    min-height: 100vh;
-  }
+body {
+  font-family: var(--font-tamil);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  /* Header */
-  .header {
-    background: linear-gradient(135deg, var(--maroon) 0%, var(--saffron) 60%, var(--gold) 100%);
-    padding: 20px 16px 30px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .header::before {
-    content: '🕉';
-    position: absolute;
-    font-size: 120px;
-    opacity: 0.08;
-    top: -20px; right: -20px;
-  }
-  .header-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1.3rem;
-    color: #fff;
-    letter-spacing: 2px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  }
-  .header-tamil {
-    font-family: 'Noto Sans Tamil', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--gold);
-    margin-top: 4px;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  }
-  .header-sub {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.8);
-    margin-top: 6px;
-    letter-spacing: 1px;
-  }
-  .song-count-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.4);
-    border-radius: 20px;
-    padding: 3px 12px;
-    font-size: 0.75rem;
-    color: #fff;
-    margin-top: 8px;
-  }
-  .status-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 8px;
-    font-size: 0.72rem;
-  }
-  .online-dot { width:8px;height:8px;border-radius:50%;background:#4CAF50;display:inline-block;animation:pulse 2s infinite; }
-  .offline-dot { width:8px;height:8px;border-radius:50%;background:#FF5722;display:inline-block; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  .status-text { color: rgba(255,255,255,0.9); }
-  .sync-toolbar {
-    display: flex;
-    gap: 8px;
-    padding: 10px 16px;
-    background: #FFF8F0;
-    border-bottom: 1px solid #FFE0B2;
-    overflow-x: auto;
-  }
-  .sync-btn {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 7px 14px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    border: none;
-  }
-  .sync-btn.export { background:#E8F5E9;color:#2E7D32;border:1px solid #A5D6A7; }
-  .sync-btn.import-btn { background:#E3F2FD;color:#1565C0;border:1px solid #90CAF9; }
-  .sync-btn.backup { background:#FFF3E0;color:#E65100;border:1px solid #FFCC80; }
-  .last-saved { margin-left:auto;font-size:0.68rem;color:#aaa;align-self:center;white-space:nowrap; }
-  .toast {
-    position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
-    background:#1A0A00;color:#FFD700;padding:14px 28px;border-radius:20px;
-    font-size:1rem;font-weight:700;z-index:999;opacity:0;transition:opacity 0.3s;
-    pointer-events:none;box-shadow:0 4px 20px rgba(0,0,0,0.4);
-    border:2px solid #FF6B00;min-width:260px;text-align:center;
-  }
-  .toast.show { opacity:1; }
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 0%, rgba(240,192,64,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(255,140,66,0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-  /* Controls */
-  .controls {
-    padding: 16px;
-    background: #fff;
-    box-shadow: 0 2px 12px var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .search-box {
-    display: flex;
-    align-items: center;
-    background: var(--cream);
-    border: 2px solid var(--gold);
-    border-radius: 12px;
-    padding: 10px 14px;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .search-box input {
-    border: none;
-    background: transparent;
-    flex: 1;
-    font-size: 0.95rem;
-    font-family: 'Noto Sans Tamil', sans-serif;
-    color: var(--deep);
-    outline: none;
-  }
-  .search-icon { font-size: 1.1rem; }
+/* ── HEADER ── */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #1a0a2e 0%, #2d1560 100%);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 12px 16px;
+  backdrop-filter: blur(12px);
+}
 
-  .filters {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .filter-select {
-    flex: 1;
-    min-width: 120px;
-    padding: 8px 10px;
-    border: 1.5px solid #ddd;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-family: 'Noto Sans Tamil', sans-serif;
-    background: #fff;
-    color: var(--deep);
-    outline: none;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23FF6B00'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    padding-right: 24px;
-  }
-  .filter-select:focus { border-color: var(--saffron); }
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
 
-  .stats-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    font-size: 0.75rem;
-    color: #888;
-  }
-  .clear-btn {
-    background: none;
-    border: 1px solid var(--saffron);
-    color: var(--saffron);
-    padding: 3px 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
-    cursor: pointer;
-  }
+.app-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 
-  /* Add Song Button */
-  .add-btn {
-    position: fixed;
-    bottom: 24px;
-    right: 20px;
-    background: linear-gradient(135deg, var(--saffron), var(--gold));
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 56px;
-    height: 56px;
-    font-size: 1.8rem;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(255,107,0,0.5);
-    z-index: 200;
-    transition: transform 0.2s;
-  }
-  .add-btn:hover { transform: scale(1.1); }
+.app-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
 
-  /* Song List */
-  .song-list {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-bottom: 100px;
-  }
+.app-subtitle {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
 
-  .song-card {
-    background: var(--card-bg);
-    border-radius: 14px;
-    padding: 16px;
-    box-shadow: 0 2px 10px var(--shadow);
-    border-left: 4px solid var(--saffron);
-    cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
-    animation: fadeIn 0.3s ease;
-  }
-  .song-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--shadow); }
-  .song-card.expanded { border-left-color: var(--lotus); }
+.header-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
 
-  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.version-tag {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  background: rgba(240,192,64,0.1);
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+}
 
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .song-name {
-    font-family: 'Noto Sans Tamil', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--maroon);
-    flex: 1;
-    line-height: 1.4;
-  }
-  .deity-badge {
-    background: linear-gradient(135deg, var(--saffron), var(--gold));
-    color: #fff;
-    font-size: 0.65rem;
-    padding: 3px 8px;
-    border-radius: 10px;
-    white-space: nowrap;
-    font-weight: 600;
-  }
+.song-count {
+  font-size: 0.75rem;
+  color: var(--accent-saffron);
+  font-weight: 600;
+}
 
-  .card-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 10px;
-  }
-  .meta-chip {
-    background: #FFF3E0;
-    border: 1px solid #FFD0A0;
-    border-radius: 6px;
-    padding: 3px 8px;
-    font-size: 0.7rem;
-    color: var(--deep-saffron);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .meta-chip .label { color: #aaa; font-size: 0.65rem; }
-  .category-chip {
-    background: #FCE4EC;
-    border-color: #F48FB1;
-    color: var(--lotus);
-  }
+.sync-status {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+  text-align: center;
+  padding: 0 4px;
+}
 
-  .lyrics-preview {
-    margin-top: 12px;
-    font-family: 'Noto Sans Tamil', sans-serif;
-    font-size: 0.85rem;
-    color: #555;
-    line-height: 1.7;
-    border-top: 1px dashed #eee;
-    padding-top: 10px;
-    display: none;
-  }
-  .song-card.expanded .lyrics-preview { display: block; }
+/* ── SYNC BUTTONS ── */
+.sync-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 62px;
+  z-index: 99;
+}
 
-  .expand-hint {
-    font-size: 0.7rem;
-    color: #bbb;
-    margin-top: 8px;
-    text-align: right;
-  }
-  .card-actions {
-    display: none;
-    gap: 8px;
-    margin-top: 12px;
-    border-top: 1px dashed #eee;
-    padding-top: 10px;
-  }
-  .song-card.expanded .card-actions { display: flex; }
-  .btn-edit {
-    flex:1;background:#E3F2FD;color:#1565C0;border:1px solid #90CAF9;
-    padding:8px;border-radius:8px;font-size:0.8rem;font-weight:600;cursor:pointer;
-  }
-  .btn-delete {
-    flex:1;background:#FFEBEE;color:#C62828;border:1px solid #EF9A9A;
-    padding:8px;border-radius:8px;font-size:0.8rem;font-weight:600;cursor:pointer;
-  }
+.btn-sync {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-family: var(--font-tamil);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
 
-  /* Empty state */
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #bbb;
-  }
-  .empty-state .icon { font-size: 3rem; margin-bottom: 12px; }
-  .empty-state p { font-size: 0.9rem; }
+.btn-sync:hover {
+  border-color: var(--border-glow);
+  background: var(--bg-input);
+  box-shadow: var(--shadow-glow);
+}
 
-  /* Modal */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 300;
-    align-items: flex-end;
-    justify-content: center;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal {
-    background: #fff;
-    border-radius: 24px 24px 0 0;
-    width: 100%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 24px 20px 40px;
-    animation: slideUp 0.3s ease;
-  }
-  @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+.btn-sync:active {
+  transform: scale(0.97);
+}
 
-  .modal-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1rem;
-    color: var(--maroon);
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  .form-group { margin-bottom: 14px; }
-  .form-group label {
-    display: block;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--saffron);
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1.5px solid #ddd;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-family: 'Noto Sans Tamil', sans-serif;
-    color: var(--deep);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form-group input:focus,
-  .form-group select:focus,
-  .form-group textarea:focus { border-color: var(--saffron); }
-  .form-group textarea { min-height: 120px; resize: vertical; }
-  .form-row { display: flex; gap: 10px; }
-  .form-row .form-group { flex: 1; }
+.btn-sync.syncing {
+  opacity: 0.6;
+  pointer-events: none;
+}
 
-  .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
-  .btn-save {
-    flex: 2;
-    background: linear-gradient(135deg, var(--saffron), var(--gold));
-    color: #fff;
-    border: none;
-    padding: 13px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  .btn-cancel {
-    flex: 1;
-    background: #f5f5f5;
-    color: #666;
-    border: none;
-    padding: 13px;
-    border-radius: 12px;
-    font-size: 0.9rem;
-    cursor: pointer;
-  }
+.btn-sync .icon { font-size: 1rem; }
 
-  .no-results { display: none; }
+.btn-force { border-color: rgba(232,69,69,0.3); }
+.btn-force:hover { border-color: var(--accent-vermillion); box-shadow: 0 0 15px rgba(232,69,69,0.2); }
+
+/* ── SEARCH & FILTERS ── */
+.search-section {
+  padding: 12px 16px;
+  position: sticky;
+  top: 108px;
+  z-index: 98;
+  background: var(--bg-deep);
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: var(--font-tamil);
+  font-size: 0.95rem;
+  transition: var(--transition);
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(240,192,64,0.1);
+}
+
+.search-box input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-box .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+.search-box .clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 4px;
+  display: none;
+}
+
+.search-box .clear-btn.visible { display: block; }
+
+.filters-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.filter-select {
+  padding: 8px 10px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  font-family: var(--font-tamil);
+  font-size: 0.78rem;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a6498' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 28px;
+}
+
+.filter-select:focus {
+  border-color: var(--accent-gold);
+}
+
+.filter-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.clear-filters {
+  background: none;
+  border: none;
+  color: var(--accent-saffron);
+  cursor: pointer;
+  font-family: var(--font-tamil);
+  font-size: 0.72rem;
+  display: none;
+}
+
+.clear-filters.visible { display: inline; }
+
+/* ── SONG LIST ── */
+.song-list {
+  padding: 8px 16px 100px;
+  position: relative;
+  z-index: 1;
+}
+
+.song-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: pointer;
+  animation: fadeSlideIn 0.3s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.song-card:hover {
+  border-color: var(--border-glow);
+  box-shadow: var(--shadow-glow);
+}
+
+.song-card-header {
+  padding: 14px 16px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.song-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.song-meta-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 16px 12px;
+}
+
+.badge {
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.badge-ragam { background: rgba(138,100,220,0.2); color: #c4a8f0; }
+.badge-thalam { background: rgba(80,180,160,0.2); color: #80d8c0; }
+.badge-deity { background: rgba(240,192,64,0.15); color: var(--accent-gold); }
+.badge-category { background: rgba(255,140,66,0.15); color: var(--accent-saffron); }
+
+.song-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.song-actions button {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.song-actions .btn-edit:hover { background: rgba(240,192,64,0.15); color: var(--accent-gold); }
+.song-actions .btn-delete:hover { background: rgba(232,69,69,0.15); color: var(--accent-vermillion); }
+
+/* Expanded lyrics */
+.song-lyrics-section {
+  display: none;
+  padding: 0 16px 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.song-card.expanded .song-lyrics-section { display: block; }
+
+.song-lyrics {
+  white-space: pre-wrap;
+  font-size: 0.88rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  padding-top: 12px;
+}
+
+.song-notes {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.song-date {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.empty-state .icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
+.empty-state p { font-size: 0.9rem; margin-bottom: 6px; }
+
+/* ── FAB ── */
+.fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-saffron));
+  color: #1a0a2e;
+  border: none;
+  font-size: 1.8rem;
+  font-weight: 300;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(240,192,64,0.4);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(240,192,64,0.5); }
+.fab:active { transform: scale(0.95); }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 300;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--bg-card);
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal h2 {
+  font-size: 1.1rem;
+  color: var(--accent-gold);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-family: var(--font-tamil);
+  font-size: 0.9rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(240,192,64,0.1);
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-tamil);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+}
+
+.btn-cancel {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle) !important;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-saffron));
+  color: #1a0a2e;
+}
+
+.btn-save:hover { box-shadow: 0 4px 16px rgba(240,192,64,0.3); }
+
+/* ── DELETE CONFIRM ── */
+.delete-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-overlay.open { display: flex; }
+
+.delete-dialog {
+  background: var(--bg-card);
+  border: 1px solid rgba(232,69,69,0.3);
+  border-radius: var(--radius);
+  padding: 24px;
+  max-width: 340px;
+  text-align: center;
+}
+
+.delete-dialog h3 {
+  color: var(--accent-vermillion);
+  margin-bottom: 8px;
+}
+
+.delete-dialog p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.delete-dialog .song-to-delete {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.delete-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.delete-actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-tamil);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+}
+
+.btn-delete-confirm {
+  background: var(--accent-vermillion);
+  color: white;
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  z-index: 500;
+  opacity: 0;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: var(--shadow-card);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media (min-width: 768px) {
+  .song-list { max-width: 700px; margin: 0 auto; }
+  .search-section { max-width: 700px; margin: 0 auto; }
+  .filters-row { grid-template-columns: repeat(4, 1fr); }
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-title">Sri Bhajan Sangeetham</div>
-  <div class="header-tamil">ஸ்ரீ பஜன் சங்கீதம்</div>
-  <div class="header-sub">Tamil Devotional Song Database</div>
-  <div class="song-count-badge" id="totalBadge">0 பாடல்கள்</div>
-  <div class="status-bar">
-    <span id="statusDot" class="online-dot"></span>
-    <span class="status-text" id="statusText">Online — data synced</span>
+<!-- HEADER -->
+<header class="app-header">
+  <div class="header-top">
+    <div class="app-title-group">
+      <div class="app-title">ஸ்ரீ பஜன் சங்கீதம்</div>
+      <div class="app-subtitle">Sri Bhajan Sangeetham &bull; Tamil Devotional Song Database</div>
+    </div>
+    <div class="header-meta">
+      <span class="version-tag">v2026-03-03</span>
+      <span class="song-count" id="songCount">0 பாடல்கள்</span>
+    </div>
   </div>
+  <div class="sync-status" id="syncStatus">Ready</div>
+</header>
+
+<!-- SYNC BAR -->
+<div class="sync-bar">
+  <button class="btn-sync btn-force" id="btnForceSync" onclick="forceSync()">
+    <span class="icon">🔄</span> Force Sync
+  </button>
+  <button class="btn-sync" id="btnSyncLatest" onclick="syncLatest()">
+    <span class="icon">☁️</span> Sync Latest Songs
+  </button>
 </div>
 
-<div class="sync-toolbar">
-  <button class="sync-btn" style="background:#E8F5E9;color:#1B5E20;border:1px solid #81C784;" onclick="syncFromSheets()">☁️ Sync Latest Songs</button>
-  <button class="sync-btn" style="background:#FCE4EC;color:#B71C1C;border:1px solid #EF9A9A;" onclick="forceSync()">🔄 Force Sync</button>
-  <span class="last-saved" id="lastSaved"></span>
-</div>
-
-<div class="controls">
+<!-- SEARCH & FILTERS -->
+<div class="search-section">
   <div class="search-box">
     <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="Search in Tamil or English... (Mohanam, Krishna, Guru)" oninput="applyFilters()">
+    <input type="text" id="searchInput" placeholder="Search Tamil or English (e.g. manam, ராகம், guru)" autocomplete="off">
+    <button class="clear-btn" id="clearSearch" onclick="clearSearch()">✕</button>
   </div>
-  <div class="filters">
+  <div class="filters-row">
     <select class="filter-select" id="filterRagam" onchange="applyFilters()">
       <option value="">🎵 All Ragam</option>
     </select>
@@ -456,429 +691,411 @@
       <option value="">📂 All Category</option>
     </select>
   </div>
-  <div class="stats-bar">
-    <span id="resultCount">Showing all songs</span>
-    <button class="clear-btn" onclick="clearFilters()">✕ Clear</button>
+  <div class="filter-info">
+    <span id="filterStatus">Showing all songs</span>
+    <button class="clear-filters" id="clearFiltersBtn" onclick="clearAllFilters()">Clear Filters</button>
   </div>
 </div>
 
+<!-- SONG LIST -->
 <div class="song-list" id="songList"></div>
 
-<div class="empty-state" id="emptyState" style="display:none">
-  <div class="icon">🎵</div>
-  <p>No songs found.<br>Try different search terms.</p>
-</div>
+<!-- FAB -->
+<button class="fab" onclick="openAddModal()" title="Add new song">+</button>
 
-<button class="add-btn" onclick="openModal()" title="Add Song">+</button>
-
-<!-- Add Song Modal -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+<!-- ADD/EDIT MODAL -->
+<div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <div class="modal-title" id="modalTitle">✦ புதிய பாடல் சேர்க்கவும் ✦</div>
-
+    <h2 id="modalTitle">✦ புதிய பாடல் சேர்க்கவும் ✦</h2>
     <div class="form-group">
       <label>பாடல் பெயர் (Song Name) *</label>
-      <input type="text" id="fName" placeholder="e.g. வாராமல் இருப்பாரோ">
+      <input type="text" id="fName" required>
     </div>
-
     <div class="form-row">
       <div class="form-group">
-        <label>ராகம் (Ragam) *</label>
-        <input type="text" id="fRagam" placeholder="e.g. வலசி">
+        <label>ராகம் (Ragam)</label>
+        <input type="text" id="fRagam">
       </div>
       <div class="form-group">
         <label>தாளம் (Thalam)</label>
-        <input type="text" id="fThalam" placeholder="e.g. ஆதி">
+        <input type="text" id="fThalam">
       </div>
     </div>
-
     <div class="form-row">
       <div class="form-group">
         <label>தெய்வம் (Deity)</label>
-        <input type="text" id="fDeity" placeholder="e.g. ஞானானந்தர், ராமன்">
+        <input type="text" id="fDeity">
       </div>
       <div class="form-group">
         <label>வகை (Category)</label>
         <select id="fCategory">
           <option value="">Select...</option>
-          <option>பல்லவி</option>
-          <option>கீர்த்தனம்</option>
-          <option>திவ்யநாமம்</option>
-          <option>பக்தி பாடல்</option>
-          <option>குரு பாடல்</option>
-          <option>மங்களம்</option>
-          <option>துதி</option>
-          <option>ஸ்தோத்திரம்</option>
+          <option value="பல்லவி">பல்லவி</option>
+          <option value="கீர்த்தனம்">கீர்த்தனம்</option>
+          <option value="திவ்யநாமம்">திவ்யநாமம்</option>
+          <option value="பக்தி பாடல்">பக்தி பாடல்</option>
+          <option value="குரு பாடல்">குரு பாடல்</option>
+          <option value="மங்களம்">மங்களம்</option>
+          <option value="துதி">துதி</option>
+          <option value="ஸ்தோத்திரம்">ஸ்தோத்திரம்</option>
+          <option value="திருப்புகழ்">திருப்புகழ்</option>
         </select>
       </div>
     </div>
-
     <div class="form-group">
-      <label>இயற்றியவர் (Composer/Author)</label>
-      <input type="text" id="fComposer" placeholder="e.g. Tyagaraja, Unknown">
+      <label>இயற்றியவர் (Composer)</label>
+      <input type="text" id="fComposer">
     </div>
-
     <div class="form-group">
       <label>பாடல் வரிகள் (Lyrics)</label>
-      <textarea id="fLyrics" placeholder="பல்லவி, அனுபல்லவி, சரணம் வரிகளை இங்கே சேர்க்கவும்..."></textarea>
+      <textarea id="fLyrics"></textarea>
     </div>
-
     <div class="form-group">
       <label>குறிப்புகள் (Notes)</label>
-      <input type="text" id="fNotes" placeholder="Any additional notes...">
+      <input type="text" id="fNotes">
     </div>
-
     <div class="form-group">
       <label>சேர்த்த தேதி (Date Added)</label>
       <input type="date" id="fDate">
     </div>
-
-    <div class="modal-btns">
+    <div class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" id="btnSave" onclick="saveSong()">✓ சேமிக்கவும்</button>
+      <button class="btn-save" onclick="saveSong()">✓ சேமிக்கவும்</button>
     </div>
   </div>
 </div>
 
+<!-- DELETE CONFIRMATION -->
+<div class="delete-overlay" id="deleteOverlay">
+  <div class="delete-dialog">
+    <h3>நீக்கவா?</h3>
+    <p>Are you sure you want to delete<br><span class="song-to-delete" id="deleteSongName"></span>?</p>
+    <div class="delete-actions">
+      <button class="btn-cancel" onclick="closeDeleteDialog()">Cancel</button>
+      <button class="btn-delete-confirm" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── LocalStorage Keys ──────────────────────────────
-const LS_KEY = 'bhajan_songs';
-const LS_NEXTID = 'bhajan_nextid';
+/* ══════════════════════════════════════════════
+   PHONETIC TRANSLITERATION MAP
+   Tamil ↔ English phonetic mapping
+   ══════════════════════════════════════════════ */
+const PHONETIC_MAP = {
+  // Vowels
+  'அ':'a','ஆ':'aa','இ':'i','ஈ':'ee','உ':'u','ஊ':'oo',
+  'எ':'e','ஏ':'ae','ஐ':'ai','ஒ':'o','ஓ':'oo','ஔ':'au',
+  // Consonants (base)
+  'க':'ka','ங':'nga','ச':'sa','ஞ':'nya','ட':'ta','ண':'na',
+  'த':'tha','ந':'na','ப':'pa','ம':'ma','ய':'ya','ர':'ra',
+  'ல':'la','வ':'va','ழ':'zha','ள':'la','ற':'ra','ன':'na',
+  'ஜ':'ja','ஷ':'sha','ஸ':'sa','ஹ':'ha','க்ஷ':'ksha','ஸ்ரீ':'sri',
+  // Grantha
+  'ஶ':'sha',
+  // Vowel signs
+  'ா':'a','ி':'i','ீ':'ee','ு':'u','ூ':'oo',
+  'ெ':'e','ே':'ae','ை':'ai','ொ':'o','ோ':'oo','ௌ':'au',
+  // Pulli (virama) - removes inherent vowel
+  '்':'',
+};
 
-// ── Default sample songs ───────────────────────────
-const DEFAULT_SONGS = [
-  {
-    id: 1, name: "வாராமல் இருப்பாரோ", ragam: "வலசி", thalam: "ஆதி",
-    deity: "ஞானானந்தர்", category: "கீர்த்தனம்", composer: "Unknown",
-    lyrics: `பல்லவி:\nவாராமல் இருப்பாரோ - அவரே\nவந்தருள் தாராமல் இருப்பாரோ\n\nஅனுபல்லவி:\nஎங்கும் பரிபூர்ணமாய் விளங்கிடும் தவஜ்யொதியை\nநெஞ்சம் உருகி நாம் கெஞ்சி அழைத்திட்டால்\n\nசரணம்:\nசச்சிதானந்தமாய் சகல உயிர்களுக்கும்\nதத்துவ போதகராய் விளங்கும் அருள் சுடரே\nமானாபிமானம் விட்டு தானாகி நின்றவனை\nசத்குரு ஞானானந்த என்றே கூவி அழைத்திட்டால்`,
-    notes: "", dateAdded: "2026-02-04"
-  },
-  {
-    id: 2, name: "ஞானானந்தா ஞானாந்த தேவா", ragam: "Unknown", thalam: "Unknown",
-    deity: "ஞானானந்தர்", category: "குரு பாடல்", composer: "Unknown",
-    lyrics: `ஞானானந்தா ஞானாந்த தேவா\nஞானானந்தா ஞானாந்த தேவா\n\nமனம் நினைக்கும்போது உன்னை துதிக்கும்\nபோது எந்தன் அருகில் வந்து நிற்கும் குருநாதா\nநான் பாடும் போது என்னை பாட வைத்து\nஆனந்த நடனமிடும் குருநாதா`,
-    notes: "", dateAdded: "2026-02-04"
-  },
-  {
-    id: 4, name: "ரஜதகிரி (கயிலைமலை)", ragam: "சங்கராபரணம்", thalam: "Unknown",
-    deity: "முருகன்", category: "திருப்புகழ்", composer: "அருணகிரிநாதர்",
-    lyrics: `பூமி அதனிற் பிரபுவான\nபுகலியில்வித் தகர்போல\nஅமிர்தகவித் தொடைபாட\nஅடிமை தனக் கருள்வாயே\nசமரில் எதிர்த் தசுர்மாளத்\nதனி அயில்விட் டருள்வோனே\nநமசிவயப் பொருளோனே\nரஜதகிரிப் பெருமானே`,
-    notes: "Tirupugazh - Page 15", dateAdded: "2025-12-31"
-  },
-  {
-    id: 3, name: "ஸ்ரீராம திவ்யநாமம்", ragam: "மோஹனம்", thalam: "ஆதி",
-    deity: "ராமன்", category: "திவ்யநாமம்", composer: "Unknown",
-    lyrics: `ஜய ஜய ராகவ ஜய ஜய ராகவ\nஜய விஜயீபவ ஜய ஜய ராகவ\n\nஜகதானந்தகர ஜய ஜய ராகவ\nஜானகீவல்லப ஜய ஜய ராகவ`,
-    notes: "Sri Rama Divya Namam", dateAdded: "2026-01-07"
-  }
-];
-
-// ── Load from LocalStorage ─────────────────────────
-function loadSongs() {
-  try {
-    const stored = localStorage.getItem(LS_KEY);
-    if (stored) {
-      songs = JSON.parse(stored);
-      nextId = parseInt(localStorage.getItem(LS_NEXTID) || '10');
-    } else {
-      songs = DEFAULT_SONGS;
-      nextId = 5;
-      saveSongs();
-    }
-  } catch(e) {
-    songs = DEFAULT_SONGS;
-    nextId = 5;
-  }
-}
-
-function saveSongs() {
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify(songs));
-    localStorage.setItem(LS_NEXTID, nextId.toString());
-    const now = new Date();
-    document.getElementById('lastSaved').textContent =
-      `💾 Saved ${now.toLocaleTimeString('en-IN', {hour:'2-digit', minute:'2-digit'})}`;
-  } catch(e) {
-    showToast('⚠️ Storage full! Please export and clear.');
-  }
-}
-
-// ── Online / Offline status ────────────────────────
-function updateOnlineStatus() {
-  const dot = document.getElementById('statusDot');
-  const txt = document.getElementById('statusText');
-  if (navigator.onLine) {
-    dot.className = 'online-dot';
-    txt.textContent = 'Online — data saved locally';
-  } else {
-    dot.className = 'offline-dot';
-    txt.textContent = 'Offline — using local data ✓';
-  }
-}
-window.addEventListener('online', updateOnlineStatus);
-window.addEventListener('offline', updateOnlineStatus);
-
-// ── Toast notification ─────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 6000);
-}
-
-// ── Export JSON (for backup / sharing) ────────────
-function exportJSON() {
-  const data = JSON.stringify({ version: 1, exportDate: new Date().toISOString(), songs }, null, 2);
-  const blob = new Blob([data], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `bhajan-songs-${new Date().toISOString().split('T')[0]}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('✅ Backup exported successfully!');
-}
-
-// ── Export CSV (for Google Sheets) ────────────────
-function exportCSV() {
-  const headers = ['ID','Name','Ragam','Thalam','Deity','Category','Composer','Date Added','Notes','Lyrics'];
-  const rows = songs.map(s => [
-    s.id, `"${s.name}"`, `"${s.ragam}"`, `"${s.thalam}"`, `"${s.deity}"`,
-    `"${s.category}"`, `"${s.composer}"`, s.dateAdded, `"${s.notes}"`,
-    `"${(s.lyrics||'').replace(/\n/g,' | ')}"`
-  ]);
-  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
-  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `bhajan-songs-${new Date().toISOString().split('T')[0]}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast('✅ CSV exported! Open in Google Sheets to sync.');
-}
-
-// ── Import JSON ────────────────────────────────────
-function importJSON(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const data = JSON.parse(e.target.result);
-      const imported = data.songs || data;
-      if (!Array.isArray(imported)) throw new Error('Invalid format');
-      const existing = new Set(songs.map(s => s.name));
-      let added = 0;
-      imported.forEach(s => {
-        if (!existing.has(s.name)) {
-          s.id = nextId++;
-          songs.push(s);
-          added++;
-        }
-      });
-      saveSongs();
-      populateFilters();
-      applyFilters();
-      showToast(`✅ Imported ${added} new songs! (${imported.length - added} duplicates skipped)`);
-    } catch(err) {
-      showToast('❌ Invalid file. Please use exported JSON.');
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
-}
-
-// ── Core data ──────────────────────────────────────
-let songs = [];
-let nextId = 5;
-let editingId = null;
-
-function renderSongs(list) {
-  const container = document.getElementById('songList');
-  const empty = document.getElementById('emptyState');
-  container.innerHTML = '';
-  if (list.length === 0) { empty.style.display = 'block'; return; }
-  empty.style.display = 'none';
-  list.forEach(song => {
-    const card = document.createElement('div');
-    card.className = 'song-card';
-    card.innerHTML = `
-      <div class="card-header">
-        <div class="song-name">${song.name}</div>
-        ${song.deity ? `<span class="deity-badge">🪔 ${song.deity}</span>` : ''}
-      </div>
-      <div class="card-meta">
-        ${song.ragam ? `<span class="meta-chip"><span class="label">ராகம்</span> ${song.ragam}</span>` : ''}
-        ${song.thalam ? `<span class="meta-chip"><span class="label">தாளம்</span> ${song.thalam}</span>` : ''}
-        ${song.category ? `<span class="meta-chip category-chip">📂 ${song.category}</span>` : ''}
-        ${song.composer && song.composer !== 'Unknown' ? `<span class="meta-chip"><span class="label">✍️</span> ${song.composer}</span>` : ''}
-        ${song.dateAdded ? `<span class="meta-chip" style="background:#E8F5E9;border-color:#A5D6A7;color:#2E7D32;"><span class="label">📅</span> ${song.dateAdded}</span>` : ''}
-      </div>
-      ${song.lyrics ? `<div class="lyrics-preview">${song.lyrics.replace(/\n/g, '<br>')}</div>` : ''}
-      <div class="expand-hint">${song.lyrics ? '↓ tap to view lyrics' : ''}</div>
-      <div class="card-actions">
-        <button class="btn-edit" onclick="editSong(${song.id}, event)">✏️ திருத்து (Edit)</button>
-        <button class="btn-delete" onclick="deleteSong(${song.id}, event)" id="del-${song.id}">🗑️ நீக்கு (Delete)</button>
-      </div>
-    `;
-    card.addEventListener('click', () => card.classList.toggle('expanded'));
-    container.appendChild(card);
-  });
-}
-
-// ── Phonetic Tamil romanization map ──────────────
-// Converts Tamil text to phonetic English for matching
 function tamilToPhonetic(text) {
   if (!text) return '';
-  // First apply vowel markers (must come before consonants)
-  let result = text
-    // Vowel markers (after consonant)
-    .replace(/கா/g,'kaa').replace(/கி/g,'ki').replace(/கீ/g,'kee').replace(/கு/g,'ku').replace(/கூ/g,'koo').replace(/கெ/g,'ke').replace(/கே/g,'kae').replace(/கை/g,'kai').replace(/கொ/g,'ko').replace(/கோ/g,'koh').replace(/க்/g,'k')
-    .replace(/சா/g,'chaa').replace(/சி/g,'chi').replace(/சீ/g,'chee').replace(/சு/g,'chu').replace(/சூ/g,'choo').replace(/செ/g,'che').replace(/சே/g,'chae').replace(/சை/g,'chai').replace(/சொ/g,'cho').replace(/சோ/g,'choh').replace(/ச்/g,'ch')
-    .replace(/தா/g,'thaa').replace(/தி/g,'thi').replace(/தீ/g,'thee').replace(/து/g,'thu').replace(/தூ/g,'thoo').replace(/தெ/g,'the').replace(/தே/g,'thae').replace(/தை/g,'thai').replace(/தொ/g,'tho').replace(/தோ/g,'thoh').replace(/த்/g,'th')
-    .replace(/நா/g,'naa').replace(/நி/g,'ni').replace(/நீ/g,'nee').replace(/நு/g,'nu').replace(/நூ/g,'noo').replace(/நெ/g,'ne').replace(/நே/g,'nae').replace(/நை/g,'nai').replace(/நொ/g,'no').replace(/நோ/g,'noh').replace(/ந்/g,'n')
-    .replace(/பா/g,'paa').replace(/பி/g,'pi').replace(/பீ/g,'pee').replace(/பு/g,'pu').replace(/பூ/g,'poo').replace(/பெ/g,'pe').replace(/பே/g,'pae').replace(/பை/g,'pai').replace(/பொ/g,'po').replace(/போ/g,'poh').replace(/ப்/g,'p')
-    .replace(/மா/g,'maa').replace(/மி/g,'mi').replace(/மீ/g,'mee').replace(/மு/g,'mu').replace(/மூ/g,'moo').replace(/மெ/g,'me').replace(/மே/g,'mae').replace(/மை/g,'mai').replace(/மொ/g,'mo').replace(/மோ/g,'moh').replace(/ம்/g,'m')
-    .replace(/யா/g,'yaa').replace(/யி/g,'yi').replace(/யீ/g,'yee').replace(/யு/g,'yu').replace(/யூ/g,'yoo').replace(/யெ/g,'ye').replace(/யே/g,'yae').replace(/யை/g,'yai').replace(/யொ/g,'yo').replace(/யோ/g,'yoh').replace(/ய்/g,'y')
-    .replace(/ரா/g,'raa').replace(/ரி/g,'ri').replace(/ரீ/g,'ree').replace(/ரு/g,'ru').replace(/ரூ/g,'roo').replace(/ரெ/g,'re').replace(/ரே/g,'rae').replace(/ரை/g,'rai').replace(/ரொ/g,'ro').replace(/ரோ/g,'roh').replace(/ர்/g,'r')
-    .replace(/லா/g,'laa').replace(/லி/g,'li').replace(/லீ/g,'lee').replace(/லு/g,'lu').replace(/லூ/g,'loo').replace(/லெ/g,'le').replace(/லே/g,'lae').replace(/லை/g,'lai').replace(/லொ/g,'lo').replace(/லோ/g,'loh').replace(/ல்/g,'l')
-    .replace(/வா/g,'vaa').replace(/வி/g,'vi').replace(/வீ/g,'vee').replace(/வு/g,'vu').replace(/வூ/g,'voo').replace(/வெ/g,'ve').replace(/வே/g,'vae').replace(/வை/g,'vai').replace(/வொ/g,'vo').replace(/வோ/g,'voh').replace(/வ்/g,'v')
-    .replace(/னா/g,'naa').replace(/னி/g,'ni').replace(/னீ/g,'nee').replace(/னு/g,'nu').replace(/னூ/g,'noo').replace(/னெ/g,'ne').replace(/னே/g,'nae').replace(/னை/g,'nai').replace(/னொ/g,'no').replace(/னோ/g,'noh').replace(/ன்/g,'n')
-    .replace(/ளா/g,'laa').replace(/ளி/g,'li').replace(/ளீ/g,'lee').replace(/ளு/g,'lu').replace(/ளூ/g,'loo').replace(/ளெ/g,'le').replace(/ளே/g,'lae').replace(/ளை/g,'lai').replace(/ளொ/g,'lo').replace(/ளோ/g,'loh').replace(/ள்/g,'l')
-    .replace(/றா/g,'raa').replace(/றி/g,'ri').replace(/றீ/g,'ree').replace(/று/g,'ru').replace(/றூ/g,'roo').replace(/றெ/g,'re').replace(/றே/g,'rae').replace(/றை/g,'rai').replace(/றொ/g,'ro').replace(/றோ/g,'roh').replace(/ற்/g,'r')
-    .replace(/ணா/g,'naa').replace(/ணி/g,'ni').replace(/ணீ/g,'nee').replace(/ணு/g,'nu').replace(/ணூ/g,'noo').replace(/ணெ/g,'ne').replace(/ணே/g,'nae').replace(/ணை/g,'nai').replace(/ணொ/g,'no').replace(/ணோ/g,'noh').replace(/ண்/g,'n')
-    .replace(/ஜா/g,'jaa').replace(/ஜி/g,'ji').replace(/ஜீ/g,'jee').replace(/ஜு/g,'ju').replace(/ஜூ/g,'joo').replace(/ஜெ/g,'je').replace(/ஜே/g,'jae').replace(/ஜை/g,'jai').replace(/ஜொ/g,'jo').replace(/ஜோ/g,'joh').replace(/ஜ்/g,'j')
-    .replace(/ஹா/g,'haa').replace(/ஹி/g,'hi').replace(/ஹீ/g,'hee').replace(/ஹு/g,'hu').replace(/ஹூ/g,'hoo').replace(/ஹெ/g,'he').replace(/ஹே/g,'hae').replace(/ஹை/g,'hai').replace(/ஹொ/g,'ho').replace(/ஹோ/g,'hoh').replace(/ஹ்/g,'h')
-    // Standalone consonants with inherent 'a' vowel
-    .replace(/க/g,'ka').replace(/ங/g,'nga').replace(/ச/g,'cha').replace(/ஞ/g,'gna')
-    .replace(/ட/g,'ta').replace(/ண/g,'na').replace(/த/g,'tha').replace(/ந/g,'na')
-    .replace(/ப/g,'pa').replace(/ம/g,'ma').replace(/ய/g,'ya').replace(/ர/g,'ra')
-    .replace(/ல/g,'la').replace(/வ/g,'va').replace(/ழ/g,'zha').replace(/ள/g,'la')
-    .replace(/ற/g,'ra').replace(/ன/g,'na').replace(/ஜ/g,'ja').replace(/ஷ/g,'sha')
-    .replace(/ஸ/g,'sa').replace(/ஹ/g,'ha')
-    // Standalone vowels
-    .replace(/அ/g,'a').replace(/ஆ/g,'aa').replace(/இ/g,'i').replace(/ஈ/g,'ee')
-    .replace(/உ/g,'u').replace(/ஊ/g,'oo').replace(/எ/g,'e').replace(/ஏ/g,'ae')
-    .replace(/ஐ/g,'ai').replace(/ஒ/g,'o').replace(/ஓ/g,'oh').replace(/ஔ/g,'au')
-    // Remove remaining Tamil chars
-    .replace(/[^ -]/g,'')
-    .toLowerCase();
-  return result;
+  let result = '';
+  const chars = [...text];
+  for (let i = 0; i < chars.length; i++) {
+    const ch = chars[i];
+    // Check two-char combos first
+    if (i < chars.length - 1) {
+      const combo = ch + chars[i+1];
+      if (PHONETIC_MAP[combo]) {
+        result += PHONETIC_MAP[combo];
+        i++;
+        continue;
+      }
+    }
+    if (PHONETIC_MAP[ch] !== undefined) {
+      result += PHONETIC_MAP[ch];
+    } else if (/[\u0B80-\u0BFF]/.test(ch)) {
+      // Unknown Tamil char, skip
+    } else {
+      result += ch;
+    }
+  }
+  return result.toLowerCase();
 }
 
-function translateSearch(term) { return term; }
+function buildSearchIndex(song) {
+  const fields = [song.name, song.ragam, song.thalam, song.deity, song.category, song.composer, song.lyrics, song.notes].filter(Boolean).join(' ');
+  const phonetic = tamilToPhonetic(fields);
+  return {
+    original: fields.toLowerCase(),
+    phonetic: phonetic
+  };
+}
+
+/* ══════════════════════════════════════════════
+   APP STATE
+   ══════════════════════════════════════════════ */
+const SONGS_URL = '/bhajansri/songs.json';
+const STORAGE_KEY = 'bhajansri_songs_v2';
+let allSongs = [];
+let searchIndex = {};
+let editingSongId = null;
+let deletingSongId = null;
+
+/* ══════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  loadFromStorage();
+  if (allSongs.length === 0) {
+    forceSync();
+  }
+  document.getElementById('searchInput').addEventListener('input', debounce(applyFilters, 200));
+});
+
+/* ══════════════════════════════════════════════
+   SYNC FUNCTIONS
+   ══════════════════════════════════════════════ */
+async function forceSync() {
+  const btn = document.getElementById('btnForceSync');
+  btn.classList.add('syncing');
+  btn.innerHTML = '<span class="icon">⏳</span> Syncing...';
+  updateSyncStatus('Force syncing...');
+  try {
+    const resp = await fetch(SONGS_URL + '?t=' + Date.now());
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    allSongs = data.songs || [];
+    rebuildIndex();
+    saveToStorage();
+    populateFilters();
+    applyFilters();
+    updateSyncStatus('Force synced: ' + allSongs.length + ' songs loaded');
+    showToast('✓ Force sync complete — ' + allSongs.length + ' songs');
+  } catch (err) {
+    updateSyncStatus('Sync failed: ' + err.message);
+    showToast('✗ Sync failed: ' + err.message);
+  } finally {
+    btn.classList.remove('syncing');
+    btn.innerHTML = '<span class="icon">🔄</span> Force Sync';
+  }
+}
+
+async function syncLatest() {
+  const btn = document.getElementById('btnSyncLatest');
+  btn.classList.add('syncing');
+  btn.innerHTML = '<span class="icon">⏳</span> Syncing...';
+  updateSyncStatus('Checking for new songs...');
+  try {
+    const resp = await fetch(SONGS_URL + '?t=' + Date.now());
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const data = await resp.json();
+    const remoteSongs = data.songs || [];
+    const localIds = new Set(allSongs.map(s => s.id));
+    let added = 0;
+    for (const rs of remoteSongs) {
+      if (!localIds.has(rs.id)) {
+        allSongs.push(rs);
+        added++;
+      }
+    }
+    rebuildIndex();
+    saveToStorage();
+    populateFilters();
+    applyFilters();
+    if (added > 0) {
+      updateSyncStatus('Added ' + added + ' new song(s)');
+      showToast('✓ ' + added + ' new song(s) added');
+    } else {
+      updateSyncStatus('Already up to date');
+      showToast('✓ Already up to date');
+    }
+  } catch (err) {
+    updateSyncStatus('Sync failed: ' + err.message);
+    showToast('✗ Sync failed: ' + err.message);
+  } finally {
+    btn.classList.remove('syncing');
+    btn.innerHTML = '<span class="icon">☁️</span> Sync Latest Songs';
+  }
+}
+
+/* ══════════════════════════════════════════════
+   STORAGE
+   ══════════════════════════════════════════════ */
+function saveToStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(allSongs));
+  } catch(e) { console.warn('Storage save failed', e); }
+}
+
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      allSongs = JSON.parse(raw);
+      rebuildIndex();
+      populateFilters();
+      applyFilters();
+    }
+  } catch(e) { console.warn('Storage load failed', e); }
+}
+
+/* ══════════════════════════════════════════════
+   INDEX & FILTER
+   ══════════════════════════════════════════════ */
+function rebuildIndex() {
+  searchIndex = {};
+  allSongs.forEach(s => { searchIndex[s.id] = buildSearchIndex(s); });
+}
+
+function populateFilters() {
+  const sets = { ragam: new Set(), thalam: new Set(), deity: new Set(), category: new Set() };
+  allSongs.forEach(s => {
+    if (s.ragam) sets.ragam.add(s.ragam);
+    if (s.thalam) sets.thalam.add(s.thalam);
+    if (s.deity) sets.deity.add(s.deity);
+    if (s.category) sets.category.add(s.category);
+  });
+  fillSelect('filterRagam', '🎵 All Ragam', sets.ragam);
+  fillSelect('filterThalam', '🥁 All Thalam', sets.thalam);
+  fillSelect('filterDeity', '🪔 All Deity', sets.deity);
+  fillSelect('filterCategory', '📂 All Category', sets.category);
+}
+
+function fillSelect(id, allLabel, valuesSet) {
+  const sel = document.getElementById(id);
+  const current = sel.value;
+  sel.innerHTML = '<option value="">' + allLabel + '</option>';
+  [...valuesSet].sort().forEach(v => {
+    sel.innerHTML += '<option value="' + escHtml(v) + '">' + escHtml(v) + '</option>';
+  });
+  sel.value = current;
+}
 
 function applyFilters() {
-  const search = document.getElementById('searchInput').value.toLowerCase();
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
   const ragam = document.getElementById('filterRagam').value;
   const thalam = document.getElementById('filterThalam').value;
   const deity = document.getElementById('filterDeity').value;
   const category = document.getElementById('filterCategory').value;
-  let filtered = songs.filter(s => {
-    const phoneticSearch = tamilToPhonetic(search);
-    const searchIn = (val) => {
-      if (!val) return false;
-      const valLower = val.toLowerCase();
-      const valPhonetic = tamilToPhonetic(val);
-      return valLower.includes(search) ||
-             valPhonetic.includes(search) ||
-             valPhonetic.includes(phoneticSearch);
-    };
-    const matchSearch = !search ||
-      searchIn(s.name) ||
-      searchIn(s.deity) ||
-      searchIn(s.composer) ||
-      searchIn(s.ragam) ||
-      searchIn(s.thalam) ||
-      searchIn(s.category) ||
-      searchIn(s.lyrics);
-    return matchSearch &&
-      (!ragam || s.ragam === ragam) &&
-      (!thalam || s.thalam === thalam) &&
-      (!deity || s.deity === deity) &&
-      (!category || s.category === category);
+
+  // Clear button
+  document.getElementById('clearSearch').classList.toggle('visible', query.length > 0);
+
+  const hasFilters = ragam || thalam || deity || category || query;
+  document.getElementById('clearFiltersBtn').classList.toggle('visible', !!hasFilters);
+
+  const phoneticQuery = tamilToPhonetic(query);
+
+  let filtered = allSongs.filter(s => {
+    if (ragam && s.ragam !== ragam) return false;
+    if (thalam && s.thalam !== thalam) return false;
+    if (deity && s.deity !== deity) return false;
+    if (category && s.category !== category) return false;
+    if (query) {
+      const idx = searchIndex[s.id];
+      if (!idx) return false;
+      const matchOriginal = idx.original.includes(query);
+      const matchPhonetic = idx.phonetic.includes(phoneticQuery);
+      // Also try direct English in original
+      const matchEnglish = idx.original.includes(phoneticQuery);
+      if (!matchOriginal && !matchPhonetic && !matchEnglish) return false;
+    }
+    return true;
   });
+
+  // Sort by dateAdded descending
+  filtered.sort((a,b) => (b.dateAdded || '').localeCompare(a.dateAdded || ''));
+
   renderSongs(filtered);
-  document.getElementById('resultCount').textContent =
-    filtered.length === songs.length
-      ? `${songs.length} பாடல்கள் உள்ளன`
-      : `${filtered.length} / ${songs.length} பாடல்கள்`;
+  document.getElementById('songCount').textContent = allSongs.length + ' பாடல்கள்';
+  document.getElementById('filterStatus').textContent = hasFilters
+    ? 'Showing ' + filtered.length + ' of ' + allSongs.length + ' songs'
+    : 'Showing all ' + allSongs.length + ' songs';
 }
 
-function populateFilters() {
-  const ragams = [...new Set(songs.map(s => s.ragam).filter(Boolean))].sort();
-  const thalams = [...new Set(songs.map(s => s.thalam).filter(Boolean))].sort();
-  const deities = [...new Set(songs.map(s => s.deity).filter(Boolean))].sort();
-  const categories = [...new Set(songs.map(s => s.category).filter(Boolean))].sort();
-  const setOptions = (id, values, prefix) => {
-    const sel = document.getElementById(id);
-    const current = sel.value;
-    sel.innerHTML = `<option value="">${prefix}</option>` +
-      values.map(v => `<option value="${v}" ${v===current?'selected':''}>${v}</option>`).join('');
-  };
-  setOptions('filterRagam', ragams, '🎵 All Ragam');
-  setOptions('filterThalam', thalams, '🥁 All Thalam');
-  setOptions('filterDeity', deities, '🪔 All Deity');
-  setOptions('filterCategory', categories, '📂 All Category');
-  document.getElementById('totalBadge').textContent = `${songs.length} பாடல்கள்`;
-}
-
-function clearFilters() {
+function clearSearch() {
   document.getElementById('searchInput').value = '';
-  ['filterRagam','filterThalam','filterDeity','filterCategory'].forEach(id => document.getElementById(id).value = '');
   applyFilters();
 }
 
-function openModal() {
-  editingId = null;
-  ['fName','fRagam','fThalam','fDeity','fComposer','fLyrics','fNotes'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('fCategory').value = '';
-  document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
+function clearAllFilters() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('filterRagam').value = '';
+  document.getElementById('filterThalam').value = '';
+  document.getElementById('filterDeity').value = '';
+  document.getElementById('filterCategory').value = '';
+  applyFilters();
+}
+
+/* ══════════════════════════════════════════════
+   RENDER SONGS
+   ══════════════════════════════════════════════ */
+function renderSongs(songs) {
+  const container = document.getElementById('songList');
+  if (songs.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="icon">🎵</div>
+        <p>No songs found.</p>
+        <p>Try different search terms or sync songs.</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = songs.map((s, i) => `
+    <div class="song-card" id="card-${s.id}" style="animation-delay:${Math.min(i*0.04,0.5)}s" onclick="toggleLyrics(${s.id}, event)">
+      <div class="song-card-header">
+        <div class="song-name">${escHtml(s.name)}</div>
+        <div class="song-actions">
+          <button class="btn-edit" onclick="openEditModal(${s.id}, event)" title="Edit">✏️</button>
+          <button class="btn-delete" onclick="openDeleteDialog(${s.id}, event)" title="Delete">🗑️</button>
+        </div>
+      </div>
+      <div class="song-meta-badges">
+        ${s.ragam ? '<span class="badge badge-ragam">🎵 ' + escHtml(s.ragam) + '</span>' : ''}
+        ${s.thalam ? '<span class="badge badge-thalam">🥁 ' + escHtml(s.thalam) + '</span>' : ''}
+        ${s.deity ? '<span class="badge badge-deity">🪔 ' + escHtml(s.deity) + '</span>' : ''}
+        ${s.category ? '<span class="badge badge-category">📂 ' + escHtml(s.category) + '</span>' : ''}
+      </div>
+      <div class="song-lyrics-section">
+        <div class="song-lyrics">${escHtml(s.lyrics || 'No lyrics available')}</div>
+        ${s.notes ? '<div class="song-notes">📝 ' + escHtml(s.notes) + '</div>' : ''}
+        <div class="song-date">Added: ${s.dateAdded || 'N/A'}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleLyrics(id, e) {
+  if (e.target.closest('.song-actions')) return;
+  const card = document.getElementById('card-' + id);
+  if (card) card.classList.toggle('expanded');
+}
+
+/* ══════════════════════════════════════════════
+   ADD / EDIT SONG
+   ══════════════════════════════════════════════ */
+function openAddModal() {
+  editingSongId = null;
   document.getElementById('modalTitle').textContent = '✦ புதிய பாடல் சேர்க்கவும் ✦';
-  document.getElementById('btnSave').textContent = '✓ சேமிக்கவும்';
+  clearForm();
+  document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
-function closeModalOnBg(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
-
-function saveSong() {
-  const name = document.getElementById('fName').value.trim();
-  if (!name) { showToast('⚠️ பாடல் பெயர் தேவை!'); return; }
-  const data = {
-    name,
-    ragam: document.getElementById('fRagam').value.trim(),
-    thalam: document.getElementById('fThalam').value.trim(),
-    deity: document.getElementById('fDeity').value.trim(),
-    category: document.getElementById('fCategory').value,
-    composer: document.getElementById('fComposer').value.trim(),
-    lyrics: document.getElementById('fLyrics').value.trim(),
-    notes: document.getElementById('fNotes').value.trim(),
-    dateAdded: document.getElementById('fDate').value || new Date().toISOString().split('T')[0]
-  };
-  if (editingId !== null) {
-    const idx = songs.findIndex(s => s.id === editingId);
-    if (idx !== -1) songs[idx] = { ...songs[idx], ...data };
-    showToast('✅ பாடல் புதுப்பிக்கப்பட்டது!');
-  } else {
-    songs.push({ id: nextId++, ...data });
-    showToast('✅ புதிய பாடல் சேமிக்கப்பட்டது!');
-  }
-  saveSongs();
-  populateFilters();
-  applyFilters();
-  closeModal();
-}
-
-// ── Edit Song ─────────────────────────────────────
-function editSong(id, e) {
+function openEditModal(id, e) {
   e.stopPropagation();
-  const song = songs.find(s => s.id === id);
+  editingSongId = id;
+  const song = allSongs.find(s => s.id === id);
   if (!song) return;
-  editingId = id;
+  document.getElementById('modalTitle').textContent = '✏️ பாடல் திருத்தவும்';
   document.getElementById('fName').value = song.name || '';
   document.getElementById('fRagam').value = song.ragam || '';
   document.getElementById('fThalam').value = song.thalam || '';
@@ -888,160 +1105,127 @@ function editSong(id, e) {
   document.getElementById('fLyrics').value = song.lyrics || '';
   document.getElementById('fNotes').value = song.notes || '';
   document.getElementById('fDate').value = song.dateAdded || '';
-  document.getElementById('modalTitle').textContent = '✏️ பாடல் திருத்து (Edit Song)';
-  document.getElementById('btnSave').textContent = '✓ புதுப்பிக்கவும் (Update)';
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-// ── Delete Song ────────────────────────────────────
-function deleteSong(id, e) {
-  e.stopPropagation();
-  const btn = document.getElementById('del-' + id);
-  if (btn.dataset.confirm !== 'yes') {
-    btn.textContent = '⚠️ Sure? Tap again!';
-    btn.style.background = '#C62828';
-    btn.style.color = '#fff';
-    btn.dataset.confirm = 'yes';
-    setTimeout(() => {
-      btn.textContent = '🗑️ நீக்கு (Delete)';
-      btn.style.background = '#FFEBEE';
-      btn.style.color = '#C62828';
-      btn.dataset.confirm = '';
-    }, 3000);
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  editingSongId = null;
+}
+
+function saveSong() {
+  const name = document.getElementById('fName').value.trim();
+  if (!name) {
+    showToast('⚠ Song name is required');
     return;
   }
-  songs = songs.filter(s => s.id !== id);
-  saveSongs();
+
+  const songData = {
+    name: name,
+    ragam: document.getElementById('fRagam').value.trim() || 'Unknown',
+    thalam: document.getElementById('fThalam').value.trim() || 'ஆதி',
+    deity: document.getElementById('fDeity').value.trim() || '',
+    category: document.getElementById('fCategory').value || '',
+    composer: document.getElementById('fComposer').value.trim() || 'Unknown',
+    lyrics: document.getElementById('fLyrics').value.trim(),
+    notes: document.getElementById('fNotes').value.trim(),
+    dateAdded: document.getElementById('fDate').value || new Date().toISOString().split('T')[0],
+  };
+
+  if (editingSongId !== null) {
+    const idx = allSongs.findIndex(s => s.id === editingSongId);
+    if (idx >= 0) {
+      allSongs[idx] = { ...allSongs[idx], ...songData };
+      showToast('✓ Song updated');
+    }
+  } else {
+    const maxId = allSongs.reduce((max, s) => Math.max(max, s.id || 0), 0);
+    songData.id = maxId + 1;
+    allSongs.push(songData);
+    showToast('✓ Song added');
+  }
+
+  rebuildIndex();
+  saveToStorage();
   populateFilters();
   applyFilters();
-  showToast('🗑️ பாடல் நீக்கப்பட்டது!');
+  closeModal();
 }
 
-// ── Sync Defaults ─────────────────────────────────
-function syncDefaults() {
-  const existingNames = new Set(songs.map(s => s.name));
-  let added = 0;
-  DEFAULT_SONGS.forEach(s => {
-    if (!existingNames.has(s.name)) {
-      const newSong = { ...s, id: nextId++ };
-      songs.push(newSong);
-      added++;
-    }
+function clearForm() {
+  ['fName','fRagam','fThalam','fDeity','fComposer','fLyrics','fNotes','fDate'].forEach(id => {
+    document.getElementById(id).value = '';
   });
-  if (added > 0) {
-    saveSongs();
-    populateFilters();
-    applyFilters();
-    showToast(`✅ ${added} புதிய பாடல்கள் சேர்க்கப்பட்டது!`);
-  } else {
-    showToast('✅ All songs already up to date!');
-  }
+  document.getElementById('fCategory').value = '';
 }
 
-// ── Google Sheets Sync ────────────────────────────
-// Replace with your published Google Sheet CSV URL
-const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQXe7toVulCFRrMP2B8aDQ5tf5hldPE2s4rCqaTzeD5mhnwmlAGYA5wgzLecbAFcEbDeFek1_rCzQ0t/pub?gid=0&single=true&output=tsv';
-
-async function syncFromSheets() {
-  if (!navigator.onLine) {
-    showToast('📵 Offline — using cached songs');
-    return;
-  }
-  showToast('🔄 Syncing songs...');
-  try {
-    const response = await fetch('/bhajansri/songs.json?t=' + Date.now());
-    if (!response.ok) throw new Error('songs.json not found');
-    const data = await response.json();
-    const imported = data.songs || [];
-    let added = 0;
-    let updated = 0;
-    imported.forEach(s => {
-      const existingIdx = songs.findIndex(x => x.name === s.name);
-      if (existingIdx === -1) {
-        songs.push({ ...s, id: nextId++ });
-        added++;
-      } else {
-        // Update existing song with latest lyrics and metadata
-        songs[existingIdx] = { ...songs[existingIdx], ...s };
-        updated++;
-      }
-    });
-    if (added > 0 || updated > 0) {
-      saveSongs();
-      populateFilters();
-      applyFilters();
-      showToast('✅ ' + added + ' added, ' + updated + ' updated!');
-    } else {
-      showToast('✅ Already up to date! ' + songs.length + ' songs loaded');
-    }
-  } catch(e) {
-    showToast('⚠️ Sync failed: ' + e.message);
-  }
+/* ══════════════════════════════════════════════
+   DELETE SONG
+   ══════════════════════════════════════════════ */
+function openDeleteDialog(id, e) {
+  e.stopPropagation();
+  deletingSongId = id;
+  const song = allSongs.find(s => s.id === id);
+  document.getElementById('deleteSongName').textContent = song ? song.name : '';
+  document.getElementById('deleteOverlay').classList.add('open');
 }
 
-function parseCSVRow(row) {
-  const cols = [];
-  let current = '';
-  let inQuotes = false;
-  for (let i = 0; i < row.length; i++) {
-    if (row[i] === '"') {
-      inQuotes = !inQuotes;
-    } else if (row[i] === ',' && !inQuotes) {
-      cols.push(current);
-      current = '';
-    } else {
-      current += row[i];
-    }
-  }
-  cols.push(current);
-  return cols;
+function closeDeleteDialog() {
+  document.getElementById('deleteOverlay').classList.remove('open');
+  deletingSongId = null;
 }
 
-// ── Force Sync ────────────────────────────────────
-async function forceSync() {
-  if (!navigator.onLine) {
-    showToast('📵 Offline — cannot force sync');
-    return;
-  }
-  if (!confirm('This will clear all local data and reload from server. Continue?')) return;
-  showToast('🔄 Force syncing...');
-  try {
-    const response = await fetch('/bhajansri/songs.json?t=' + Date.now());
-    if (!response.ok) throw new Error('songs.json not found');
-    const data = await response.json();
-    // Clear everything and reload fresh
-    songs = data.songs || [];
-    nextId = songs.length + 1;
-    saveSongs();
-    populateFilters();
-    applyFilters();
-    showToast('✅ Force sync done! ' + songs.length + ' songs loaded fresh!');
-  } catch(e) {
-    showToast('⚠️ Force sync failed: ' + e.message);
-  }
+function confirmDelete() {
+  if (deletingSongId === null) return;
+  allSongs = allSongs.filter(s => s.id !== deletingSongId);
+  delete searchIndex[deletingSongId];
+  saveToStorage();
+  populateFilters();
+  applyFilters();
+  closeDeleteDialog();
+  showToast('✓ Song deleted');
 }
 
-// ── Init ───────────────────────────────────────────
-loadSongs();
-updateOnlineStatus();
-populateFilters();
-applyFilters();
-// Auto sync on load if online
-if (navigator.onLine) {
-  setTimeout(syncFromSheets, 1500);
+/* ══════════════════════════════════════════════
+   UTILITIES
+   ══════════════════════════════════════════════ */
+function escHtml(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
-</script>
-<script>
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function updateSyncStatus(msg) {
+  document.getElementById('syncStatus').textContent = msg + ' — ' + new Date().toLocaleTimeString();
+}
+
+function debounce(fn, ms) {
+  let timer;
+  return function(...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), ms);
+  };
+}
+
+// Close modals on overlay click
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+document.getElementById('deleteOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeDeleteDialog();
+});
+
+// Service Worker registration
 if ('serviceWorker' in navigator) {
-  const isGithub = window.location.hostname.includes('github.io');
-  const isNetlify = window.location.hostname.includes('netlify.app');
-  if (isGithub || isNetlify) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/bhajansri/sw.js')
-        .then(reg => console.log('SW registered'))
-        .catch(err => console.log('SW skipped:', err.message));
-    });
-  }
+  navigator.serviceWorker.register('/bhajansri/sw.js').catch(() => {});
 }
 </script>
 </body>
