@@ -5,1228 +5,636 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ஸ்ரீ பஜன் சங்கீதம்</title>
 <link rel="manifest" href="/bhajansri/manifest.json">
-<meta name="theme-color" content="#1a0a2e">
+<meta name="theme-color" content="#1c0b0b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="icon" type="image/png" href="/bhajansri/icon-192.png">
 <link rel="apple-touch-icon" href="/bhajansri/icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg-deep: #0f0720;
-  --bg-card: #1a0e30;
-  --bg-surface: #231545;
-  --bg-input: #2a1a50;
-  --accent-gold: #f0c040;
-  --accent-saffron: #ff8c42;
-  --accent-vermillion: #e84545;
-  --text-primary: #f0e6ff;
-  --text-secondary: #b8a0d8;
-  --text-muted: #7a6498;
-  --border-subtle: rgba(240,192,64,0.15);
-  --border-glow: rgba(240,192,64,0.4);
-  --shadow-card: 0 4px 24px rgba(0,0,0,0.4);
-  --shadow-glow: 0 0 20px rgba(240,192,64,0.15);
-  --radius: 12px;
-  --radius-sm: 8px;
-  --font-tamil: 'Noto Sans Tamil', sans-serif;
-  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: var(--font-tamil);
-  background: var(--bg-deep);
-  color: var(--text-primary);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: 
-    radial-gradient(ellipse at 20% 0%, rgba(240,192,64,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 100%, rgba(255,140,66,0.05) 0%, transparent 60%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── HEADER ── */
-.app-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: linear-gradient(135deg, #1a0a2e 0%, #2d1560 100%);
-  border-bottom: 1px solid var(--border-subtle);
-  padding: 12px 16px;
-  backdrop-filter: blur(12px);
-}
-
-.header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.app-title-group {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.app-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--accent-gold);
-  letter-spacing: 0.5px;
-  line-height: 1.2;
-}
-
-.app-subtitle {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.header-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-}
-
-.version-tag {
-  font-size: 0.6rem;
-  color: var(--text-muted);
-  background: rgba(240,192,64,0.1);
-  padding: 2px 8px;
-  border-radius: 10px;
-  letter-spacing: 0.5px;
-}
-
-.song-count {
-  font-size: 0.75rem;
-  color: var(--accent-saffron);
-  font-weight: 600;
-}
-
-.sync-status {
-  font-size: 0.65rem;
-  color: var(--text-muted);
-  margin-top: 6px;
-  text-align: center;
-  padding: 0 4px;
-}
-
-/* ── SYNC BUTTONS ── */
-.sync-bar {
-  display: flex;
-  gap: 8px;
-  padding: 10px 16px;
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border-subtle);
-  position: sticky;
-  top: 62px;
-  z-index: 99;
-}
-
-.btn-sync {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px 12px;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  font-family: var(--font-tamil);
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.btn-sync:hover {
-  border-color: var(--border-glow);
-  background: var(--bg-input);
-  box-shadow: var(--shadow-glow);
-}
-
-.btn-sync:active {
-  transform: scale(0.97);
-}
-
-.btn-sync.syncing {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.btn-sync .icon { font-size: 1rem; }
-
-.btn-force { border-color: rgba(232,69,69,0.3); }
-.btn-force:hover { border-color: var(--accent-vermillion); box-shadow: 0 0 15px rgba(232,69,69,0.2); }
-
-/* ── SEARCH & FILTERS ── */
-.search-section {
-  padding: 12px 16px;
-  position: sticky;
-  top: 108px;
-  z-index: 98;
-  background: var(--bg-deep);
-}
-
-.search-box {
-  position: relative;
-  margin-bottom: 10px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 12px 16px 12px 42px;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-family: var(--font-tamil);
-  font-size: 0.95rem;
-  transition: var(--transition);
-  outline: none;
-}
-
-.search-box input:focus {
-  border-color: var(--accent-gold);
-  box-shadow: 0 0 0 3px rgba(240,192,64,0.1);
-}
-
-.search-box input::placeholder {
-  color: var(--text-muted);
-}
-
-.search-box .search-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-muted);
-  font-size: 1rem;
-}
-
-.search-box .clear-btn {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 1.1rem;
-  padding: 4px;
-  display: none;
-}
-
-.search-box .clear-btn.visible { display: block; }
-
-.filters-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.filter-select {
-  padding: 8px 10px;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  font-family: var(--font-tamil);
-  font-size: 0.78rem;
-  cursor: pointer;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a6498' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  padding-right: 28px;
-}
-
-.filter-select:focus {
-  border-color: var(--accent-gold);
-}
-
-.filter-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 0.72rem;
-  color: var(--text-muted);
-}
-
-.clear-filters {
-  background: none;
-  border: none;
-  color: var(--accent-saffron);
-  cursor: pointer;
-  font-family: var(--font-tamil);
-  font-size: 0.72rem;
-  display: none;
-}
-
-.clear-filters.visible { display: inline; }
-
-/* ── SONG LIST ── */
-.song-list {
-  padding: 8px 16px 100px;
-  position: relative;
-  z-index: 1;
-}
-
-.song-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius);
-  margin-bottom: 10px;
-  overflow: hidden;
-  transition: var(--transition);
-  cursor: pointer;
-  animation: fadeSlideIn 0.3s ease forwards;
-  opacity: 0;
-}
-
-@keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.song-card:hover {
-  border-color: var(--border-glow);
-  box-shadow: var(--shadow-glow);
-}
-
-.song-card-header {
-  padding: 14px 16px 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
-}
-
-.song-name {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--accent-gold);
-  line-height: 1.4;
-  flex: 1;
-}
-
-.song-meta-badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 0 16px 12px;
-}
-
-.badge {
-  font-size: 0.65rem;
-  padding: 3px 8px;
-  border-radius: 10px;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-
-.badge-ragam { background: rgba(138,100,220,0.2); color: #c4a8f0; }
-.badge-thalam { background: rgba(80,180,160,0.2); color: #80d8c0; }
-.badge-deity { background: rgba(240,192,64,0.15); color: var(--accent-gold); }
-.badge-category { background: rgba(255,140,66,0.15); color: var(--accent-saffron); }
-
-.song-actions {
-  display: flex;
-  gap: 4px;
-  flex-shrink: 0;
-}
-
-.song-actions button {
-  width: 32px;
-  height: 32px;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-.song-actions .btn-edit:hover { background: rgba(240,192,64,0.15); color: var(--accent-gold); }
-.song-actions .btn-delete:hover { background: rgba(232,69,69,0.15); color: var(--accent-vermillion); }
-
-/* Expanded lyrics */
-.song-lyrics-section {
-  display: none;
-  padding: 0 16px 14px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.song-card.expanded .song-lyrics-section { display: block; }
-
-.song-lyrics {
-  white-space: pre-wrap;
-  font-size: 0.88rem;
-  line-height: 1.8;
-  color: var(--text-secondary);
-  padding-top: 12px;
-}
-
-.song-notes {
-  margin-top: 10px;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  font-style: italic;
-}
-
-.song-date {
-  font-size: 0.65rem;
-  color: var(--text-muted);
-  margin-top: 6px;
-}
-
-/* ── EMPTY STATE ── */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--text-muted);
-}
-
-.empty-state .icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.5; }
-.empty-state p { font-size: 0.9rem; margin-bottom: 6px; }
-
-/* ── FAB ── */
-.fab {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-saffron));
-  color: #1a0a2e;
-  border: none;
-  font-size: 1.8rem;
-  font-weight: 300;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(240,192,64,0.4);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-.fab:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(240,192,64,0.5); }
-.fab:active { transform: scale(0.95); }
-
-/* ── MODAL ── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(4px);
-  z-index: 300;
-  display: none;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.modal-overlay.open { display: flex; }
-
-.modal {
-  background: var(--bg-card);
-  border-radius: 20px 20px 0 0;
-  width: 100%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 20px;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-
-.modal h2 {
-  font-size: 1.1rem;
-  color: var(--accent-gold);
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 14px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.78rem;
-  color: var(--text-secondary);
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-sm);
-  background: var(--bg-input);
-  color: var(--text-primary);
-  font-family: var(--font-tamil);
-  font-size: 0.9rem;
-  outline: none;
-  transition: var(--transition);
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-  border-color: var(--accent-gold);
-  box-shadow: 0 0 0 3px rgba(240,192,64,0.1);
-}
-
-.form-group textarea {
-  min-height: 120px;
-  resize: vertical;
-  line-height: 1.7;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.modal-actions button {
-  flex: 1;
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-tamil);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  border: none;
-}
-
-.btn-cancel {
-  background: var(--bg-surface);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-subtle) !important;
-}
-
-.btn-save {
-  background: linear-gradient(135deg, var(--accent-gold), var(--accent-saffron));
-  color: #1a0a2e;
-}
-
-.btn-save:hover { box-shadow: 0 4px 16px rgba(240,192,64,0.3); }
-
-/* ── DELETE CONFIRM ── */
-.delete-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
-  z-index: 400;
-  display: none;
-  align-items: center;
-  justify-content: center;
-}
-
-.delete-overlay.open { display: flex; }
-
-.delete-dialog {
-  background: var(--bg-card);
-  border: 1px solid rgba(232,69,69,0.3);
-  border-radius: var(--radius);
-  padding: 24px;
-  max-width: 340px;
-  text-align: center;
-}
-
-.delete-dialog h3 {
-  color: var(--accent-vermillion);
-  margin-bottom: 8px;
-}
-
-.delete-dialog p {
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  margin-bottom: 16px;
-}
-
-.delete-dialog .song-to-delete {
-  color: var(--accent-gold);
-  font-weight: 600;
-}
-
-.delete-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.delete-actions button {
-  flex: 1;
-  padding: 10px;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-tamil);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  border: none;
-  transition: var(--transition);
-}
-
-.btn-delete-confirm {
-  background: var(--accent-vermillion);
-  color: white;
-}
-
-/* ── TOAST ── */
-.toast {
-  position: fixed;
-  bottom: 90px;
-  left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: var(--bg-surface);
-  color: var(--text-primary);
-  border: 1px solid var(--border-subtle);
-  padding: 10px 20px;
-  border-radius: var(--radius);
-  font-size: 0.82rem;
-  z-index: 500;
-  opacity: 0;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  box-shadow: var(--shadow-card);
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* ── RESPONSIVE ── */
-@media (min-width: 768px) {
-  .song-list { max-width: 700px; margin: 0 auto; }
-  .search-section { max-width: 700px; margin: 0 auto; }
-  .filters-row { grid-template-columns: repeat(4, 1fr); }
-}
+:root{
+  --bg-deep:#120808;--bg-card:#1e0f0f;--bg-surface:#2a1515;--bg-input:#321c1c;
+  --gold:#d4a535;--gold-dim:rgba(212,165,53,0.15);--gold-glow:rgba(212,165,53,0.35);
+  --saffron:#e87a30;--vermillion:#c83030;--green:#48a868;
+  --text-pri:#f0e0d0;--text-sec:#c8a898;--text-dim:#806858;
+  --border:rgba(212,165,53,0.12);--border-hi:rgba(212,165,53,0.35);
+  --shadow:0 4px 24px rgba(0,0,0,0.5);--glow:0 0 18px rgba(212,165,53,0.12);
+  --r:10px;--rs:7px;
+  --font:'Noto Sans Tamil','Cormorant Garamond',sans-serif;
+  --ease:0.22s cubic-bezier(0.4,0,0.2,1);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);background:var(--bg-deep);color:var(--text-pri);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 30% 0%,rgba(212,165,53,0.04) 0%,transparent 55%),radial-gradient(ellipse at 70% 100%,rgba(232,122,48,0.03) 0%,transparent 55%);}
+
+.hdr{position:sticky;top:0;z-index:100;background:linear-gradient(180deg,#1c0b0b,#1e0f0f);border-bottom:1px solid var(--border);padding:10px 16px 6px;}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.hdr-left{flex:1;}
+.hdr-title{font-size:1.25rem;font-weight:700;color:var(--gold);line-height:1.2;}
+.hdr-sub{font-size:0.62rem;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px;}
+.hdr-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px;}
+.ver{font-size:0.55rem;color:var(--text-dim);background:var(--gold-dim);padding:2px 7px;border-radius:8px;}
+.cnt{font-size:0.72rem;color:var(--saffron);font-weight:600;}
+.db-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.55rem;color:var(--green);background:rgba(72,168,104,0.1);padding:1px 6px;border-radius:6px;margin-top:2px;}
+.db-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);}
+.hdr-status{font-size:0.6rem;color:var(--text-dim);text-align:center;padding:4px 0 0;}
+
+/* Admin lock icon */
+.admin-lock{width:34px;height:34px;border:1px solid var(--border);border-radius:8px;background:var(--bg-surface);color:var(--text-dim);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:var(--ease);flex-shrink:0;}
+.admin-lock:hover{border-color:var(--border-hi);color:var(--gold);}
+.admin-lock.unlocked{background:var(--gold-dim);color:var(--gold);border-color:var(--gold-glow);}
+
+.sync{display:flex;gap:8px;padding:8px 16px;background:var(--bg-card);border-bottom:1px solid var(--border);position:sticky;top:56px;z-index:99;}
+.sb{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 10px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg-surface);color:var(--text-pri);font-family:var(--font);font-size:0.78rem;font-weight:500;cursor:pointer;transition:var(--ease);}
+.sb:hover{border-color:var(--border-hi);box-shadow:var(--glow);}
+.sb:active{transform:scale(.97);}
+.sb.busy{opacity:.55;pointer-events:none;}
+.sb-f{border-color:rgba(200,48,48,0.25);}
+.sb-f:hover{border-color:var(--vermillion);}
+.sb .ico{font-size:0.95rem;}
+
+.src-info{text-align:center;padding:4px 16px;font-size:0.6rem;color:var(--text-dim);background:var(--bg-card);border-bottom:1px solid var(--border);cursor:pointer;}
+.src-info:hover{color:var(--saffron);}
+.src-info a{color:var(--saffron);text-decoration:none;}
+
+/* Form link bar (visible to all when configured) */
+.form-bar{text-align:center;padding:6px 16px;background:var(--bg-card);border-bottom:1px solid var(--border);display:none;}
+.form-bar.v{display:block;}
+.form-bar a{color:var(--saffron);text-decoration:none;font-size:0.75rem;font-weight:500;}
+.form-bar a:hover{color:var(--gold);}
+
+.srch{padding:10px 16px;position:sticky;top:100px;z-index:98;background:var(--bg-deep);}
+.sbox{position:relative;margin-bottom:8px;}
+.sbox input{width:100%;padding:11px 14px 11px 38px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg-card);color:var(--text-pri);font-family:var(--font);font-size:0.92rem;outline:none;transition:var(--ease);}
+.sbox input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,165,53,0.08);}
+.sbox input::placeholder{color:var(--text-dim);}
+.sbox .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:.95rem;}
+.sbox .cx{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:1rem;padding:4px;display:none;}
+.sbox .cx.v{display:block;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.fsel{padding:7px 26px 7px 9px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg-card);color:var(--text-sec);font-family:var(--font);font-size:0.73rem;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23806858' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;}
+.fsel:focus{border-color:var(--gold);}
+.finfo{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:0.68rem;color:var(--text-dim);}
+.fcl{background:none;border:none;color:var(--saffron);cursor:pointer;font-family:var(--font);font-size:0.68rem;display:none;}
+.fcl.v{display:inline;}
+
+.slist{padding:6px 16px 110px;position:relative;z-index:1;}
+.sc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:8px;overflow:hidden;cursor:pointer;transition:var(--ease);animation:fin .3s ease forwards;opacity:0;}
+@keyframes fin{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.sc:hover{border-color:var(--border-hi);box-shadow:var(--glow);}
+.sc-top{padding:12px 14px 8px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+.sc-name{font-size:0.95rem;font-weight:600;color:var(--gold);line-height:1.4;flex:1;}
+.sc-acts{display:none;gap:2px;flex-shrink:0;}
+body.admin .sc-acts{display:flex;}
+.sc-acts button{width:30px;height:30px;border:none;border-radius:7px;background:transparent;color:var(--text-dim);cursor:pointer;font-size:0.8rem;display:flex;align-items:center;justify-content:center;transition:var(--ease);}
+.sc-acts .be:hover{background:var(--gold-dim);color:var(--gold);}
+.sc-acts .bd:hover{background:rgba(200,48,48,0.12);color:var(--vermillion);}
+.sc-badges{display:flex;flex-wrap:wrap;gap:5px;padding:0 14px 10px;}
+.bg{font-size:0.6rem;padding:2px 7px;border-radius:8px;font-weight:500;}
+.bg-r{background:rgba(160,120,60,0.18);color:#d8b878;}
+.bg-t{background:rgba(72,168,104,0.15);color:#78c898;}
+.bg-d{background:var(--gold-dim);color:var(--gold);}
+.bg-c{background:rgba(232,122,48,0.12);color:var(--saffron);}
+.bg-tag{background:rgba(100,140,200,0.12);color:#90b8e0;}
+.sc-lyr{display:none;padding:0 14px 12px;border-top:1px solid var(--border);}
+.sc.exp .sc-lyr{display:block;}
+.lyr{white-space:pre-wrap;font-size:0.85rem;line-height:1.8;color:var(--text-sec);padding-top:10px;}
+.lnote{margin-top:8px;font-size:0.72rem;color:var(--text-dim);font-style:italic;}
+.ldate{font-size:0.6rem;color:var(--text-dim);margin-top:5px;}
+
+.empty{text-align:center;padding:50px 20px;color:var(--text-dim);}
+.empty .eico{font-size:2.5rem;margin-bottom:14px;opacity:.45;}
+.empty p{font-size:0.85rem;margin-bottom:4px;}
+
+/* FAB: shows Form link for public, Add for admin */
+.fab{position:fixed;bottom:22px;right:22px;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--saffron));color:#1c0b0b;border:none;font-size:1.7rem;font-weight:300;cursor:pointer;z-index:200;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(212,165,53,0.35);transition:var(--ease);}
+.fab:hover{transform:scale(1.08);}
+.fab:active{transform:scale(.94);}
+
+.mo{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(4px);z-index:300;display:none;align-items:flex-end;justify-content:center;}
+.mo.open{display:flex;}
+.md{background:var(--bg-card);border-radius:18px 18px 0 0;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;padding:18px;animation:su .3s ease;}
+@keyframes su{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.md h2{font-size:1.05rem;color:var(--gold);margin-bottom:14px;text-align:center;}
+.fg{margin-bottom:12px;}
+.fg label{display:block;font-size:0.73rem;color:var(--text-sec);margin-bottom:4px;font-weight:500;}
+.fg input,.fg textarea,.fg select{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg-input);color:var(--text-pri);font-family:var(--font);font-size:0.88rem;outline:none;transition:var(--ease);}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,165,53,0.08);}
+.fg textarea{min-height:110px;resize:vertical;line-height:1.7;}
+.fg .hint{font-size:0.6rem;color:var(--text-dim);margin-top:3px;}
+.fgr{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.mact{display:flex;gap:8px;margin-top:16px;}
+.mact button{flex:1;padding:11px;border-radius:var(--rs);font-family:var(--font);font-size:0.88rem;font-weight:600;cursor:pointer;transition:var(--ease);border:none;}
+.bc{background:var(--bg-surface);color:var(--text-sec);border:1px solid var(--border) !important;}
+.bs{background:linear-gradient(135deg,var(--gold),var(--saffron));color:#1c0b0b;}
+.bs:hover{box-shadow:0 4px 14px rgba(212,165,53,0.25);}
+
+.dlo{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:400;display:none;align-items:center;justify-content:center;}
+.dlo.open{display:flex;}
+.dld{background:var(--bg-card);border:1px solid rgba(200,48,48,0.25);border-radius:var(--r);padding:22px;max-width:320px;text-align:center;}
+.dld h3{color:var(--vermillion);margin-bottom:6px;}
+.dld p{color:var(--text-sec);font-size:0.82rem;margin-bottom:14px;}
+.dld .dname{color:var(--gold);font-weight:600;}
+.da{display:flex;gap:8px;}
+.da button{flex:1;padding:9px;border-radius:var(--rs);font-family:var(--font);font-size:0.82rem;font-weight:600;cursor:pointer;border:none;transition:var(--ease);}
+.bdc{background:var(--vermillion);color:white;}
+
+/* Admin login dialog */
+.login-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;display:none;align-items:center;justify-content:center;}
+.login-overlay.open{display:flex;}
+.login-box{background:var(--bg-card);border:1px solid var(--border-hi);border-radius:var(--r);padding:24px;max-width:340px;width:85%;text-align:center;}
+.login-box h3{color:var(--gold);margin-bottom:4px;font-size:1rem;}
+.login-box .login-sub{color:var(--text-dim);font-size:0.7rem;margin-bottom:16px;}
+.login-box input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg-input);color:var(--text-pri);font-family:var(--font);font-size:0.9rem;outline:none;text-align:center;letter-spacing:2px;}
+.login-box input:focus{border-color:var(--gold);}
+.login-err{color:var(--vermillion);font-size:0.7rem;margin-top:6px;display:none;}
+
+/* Config panel */
+.cfg-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;display:none;align-items:center;justify-content:center;}
+.cfg-overlay.open{display:flex;}
+.cfg-panel{background:var(--bg-card);border:1px solid var(--border-hi);border-radius:var(--r);padding:22px;max-width:440px;width:90%;}
+.cfg-panel h3{color:var(--gold);margin-bottom:4px;font-size:1rem;}
+.cfg-panel .cfg-sub{color:var(--text-dim);font-size:0.7rem;margin-bottom:16px;}
+.cfg-status{margin-top:8px;padding:8px;border-radius:var(--rs);font-size:0.72rem;display:none;}
+.cfg-status.ok{display:block;background:rgba(72,168,104,0.12);color:var(--green);border:1px solid rgba(72,168,104,0.2);}
+.cfg-status.err{display:block;background:rgba(200,48,48,0.12);color:var(--vermillion);border:1px solid rgba(200,48,48,0.2);}
+
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg-surface);color:var(--text-pri);border:1px solid var(--border);padding:9px 18px;border-radius:var(--r);font-size:0.78rem;z-index:600;opacity:0;transition:all .3s ease;white-space:nowrap;box-shadow:var(--shadow);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+@media(min-width:768px){.slist,.srch{max-width:680px;margin-left:auto;margin-right:auto;}.frow{grid-template-columns:repeat(4,1fr);}}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="app-header">
-  <div class="header-top">
-    <div class="app-title-group">
-      <div class="app-title">ஸ்ரீ பஜன் சங்கீதம்</div>
-      <div class="app-subtitle">Sri Bhajan Sangeetham &bull; Tamil Devotional Song Database</div>
+<header class="hdr">
+  <div class="hdr-row">
+    <div class="hdr-left">
+      <div class="hdr-title">ஸ்ரீ பஜன் சங்கீதம்</div>
+      <div class="hdr-sub">Sri Bhajan Sangeetham &bull; Tamil Devotional Songs</div>
     </div>
-    <div class="header-meta">
-      <span class="version-tag">v2026-03-03</span>
-      <span class="song-count" id="songCount">0 பாடல்கள்</span>
+    <button class="admin-lock" id="adminLock" onclick="toggleAdmin()" title="Admin Login">🔒</button>
+    <div class="hdr-right">
+      <span class="ver">v2026-03-03</span>
+      <span class="cnt" id="songCount">0 பாடல்கள்</span>
+      <span class="db-badge">IndexedDB</span>
     </div>
   </div>
-  <div class="sync-status" id="syncStatus">Ready</div>
+  <div class="hdr-status" id="syncStatus">Initializing...</div>
 </header>
 
-<!-- SYNC BAR -->
-<div class="sync-bar">
-  <button class="btn-sync btn-force" id="btnForceSync" onclick="forceSync()">
-    <span class="icon">🔄</span> Force Sync
-  </button>
-  <button class="btn-sync" id="btnSyncLatest" onclick="syncLatest()">
-    <span class="icon">☁️</span> Sync Latest Songs
-  </button>
+<div class="sync">
+  <button class="sb sb-f" id="btnForce" onclick="forceSync()"><span class="ico">🔄</span> Force Sync</button>
+  <button class="sb" id="btnLatest" onclick="syncLatest()"><span class="ico">☁️</span> Sync Latest Songs</button>
 </div>
 
-<!-- SEARCH & FILTERS -->
-<div class="search-section">
-  <div class="search-box">
-    <span class="search-icon">🔍</span>
-    <input type="text" id="searchInput" placeholder="Search Tamil or English (e.g. manam, ராகம், guru)" autocomplete="off">
-    <button class="clear-btn" id="clearSearch" onclick="clearSearch()">✕</button>
+<!-- Config link (admin only) -->
+<div class="src-info" id="srcInfo" onclick="openConfig()">Source: songs.json &bull; ⚙️ Config</div>
+
+<!-- Form link (visible to all when configured) -->
+<div class="form-bar" id="formBar"></div>
+
+<div class="srch">
+  <div class="sbox">
+    <span class="si">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search Tamil/English/Tag (e.g. manam, guru, vittal)" autocomplete="off">
+    <button class="cx" id="clearSearch" onclick="clearSearch()">✕</button>
   </div>
-  <div class="filters-row">
-    <select class="filter-select" id="filterRagam" onchange="applyFilters()">
-      <option value="">🎵 All Ragam</option>
-    </select>
-    <select class="filter-select" id="filterThalam" onchange="applyFilters()">
-      <option value="">🥁 All Thalam</option>
-    </select>
-    <select class="filter-select" id="filterDeity" onchange="applyFilters()">
-      <option value="">🪔 All Deity</option>
-    </select>
-    <select class="filter-select" id="filterCategory" onchange="applyFilters()">
-      <option value="">📂 All Category</option>
-    </select>
+  <div class="frow">
+    <select class="fsel" id="fR" onchange="render()"><option value="">🎵 All Ragam</option></select>
+    <select class="fsel" id="fT" onchange="render()"><option value="">🥁 All Thalam</option></select>
+    <select class="fsel" id="fD" onchange="render()"><option value="">🪔 All Deity</option></select>
+    <select class="fsel" id="fC" onchange="render()"><option value="">📂 All Category</option></select>
   </div>
-  <div class="filter-info">
-    <span id="filterStatus">Showing all songs</span>
-    <button class="clear-filters" id="clearFiltersBtn" onclick="clearAllFilters()">Clear Filters</button>
+  <div class="finfo">
+    <span id="filterSt">Loading...</span>
+    <button class="fcl" id="fClr" onclick="clearAll()">Clear Filters</button>
   </div>
 </div>
 
-<!-- SONG LIST -->
-<div class="song-list" id="songList"></div>
+<div class="slist" id="songList"></div>
 
-<!-- FAB -->
-<button class="fab" onclick="openAddModal()" title="Add new song">+</button>
+<!-- FAB: Form link for public, Add for admin -->
+<button class="fab" id="fab" onclick="fabAction()">+</button>
 
-<!-- ADD/EDIT MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal">
-    <h2 id="modalTitle">✦ புதிய பாடல் சேர்க்கவும் ✦</h2>
-    <div class="form-group">
-      <label>பாடல் பெயர் (Song Name) *</label>
-      <input type="text" id="fName" required>
+<!-- ADD/EDIT MODAL (admin only) -->
+<div class="mo" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="md">
+    <h2 id="mTitle">✦ புதிய பாடல் சேர்க்கவும் ✦</h2>
+    <div class="fg"><label>பாடல் பெயர் (Song Name) *</label><input type="text" id="iN"></div>
+    <div class="fgr">
+      <div class="fg"><label>ராகம் (Ragam)</label><input type="text" id="iR"></div>
+      <div class="fg"><label>தாளம் (Thalam)</label><input type="text" id="iT"></div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>ராகம் (Ragam)</label>
-        <input type="text" id="fRagam">
+    <div class="fgr">
+      <div class="fg"><label>Deity (தெய்வம்)</label>
+        <select id="iD"><option value="">Select...</option>
+          <option>Ambal</option><option>Ayyappan</option><option>Durga</option>
+          <option>Gnanananda</option><option>Hanuman</option><option>Kanchi Periyava</option>
+          <option>Karumari</option><option>Krishnan</option><option>Lakshmi</option>
+          <option>Murugan</option><option>Pandurangan</option><option>Raghavendra</option>
+          <option>Rajeswari</option><option>Rama</option><option>Saraswathi</option>
+          <option>Sivan</option><option>Vinayakar</option><option>Vittal</option>
+        </select>
       </div>
-      <div class="form-group">
-        <label>தாளம் (Thalam)</label>
-        <input type="text" id="fThalam">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>தெய்வம் (Deity)</label>
-        <input type="text" id="fDeity">
-      </div>
-      <div class="form-group">
-        <label>வகை (Category)</label>
-        <select id="fCategory">
-          <option value="">Select...</option>
-          <option value="பல்லவி">பல்லவி</option>
-          <option value="கீர்த்தனம்">கீர்த்தனம்</option>
-          <option value="திவ்யநாமம்">திவ்யநாமம்</option>
-          <option value="பக்தி பாடல்">பக்தி பாடல்</option>
-          <option value="குரு பாடல்">குரு பாடல்</option>
-          <option value="மங்களம்">மங்களம்</option>
-          <option value="துதி">துதி</option>
-          <option value="ஸ்தோத்திரம்">ஸ்தோத்திரம்</option>
-          <option value="திருப்புகழ்">திருப்புகழ்</option>
+      <div class="fg"><label>வகை (Category)</label>
+        <select id="iC"><option value="">Select...</option>
+          <option>அபங்கம்</option><option>கீர்த்தனம்</option><option>குரு பாடல்</option>
+          <option>தபோவனம்</option><option>தாஸர பதம்</option><option>திருப்புகழ்</option>
+          <option>திவ்யநாமம்</option><option>துதி</option><option>நவசக்ர கீர்த்தனை</option>
+          <option>நாமாவளி</option><option>பக்தி பாடல்</option><option>பஜன்</option>
+          <option>பல்லவி</option><option>மங்களம்</option><option>ஸ்தோத்திரம்</option>
         </select>
       </div>
     </div>
-    <div class="form-group">
-      <label>இயற்றியவர் (Composer)</label>
-      <input type="text" id="fComposer">
+    <div class="fg"><label>இயற்றியவர் (Composer)</label><input type="text" id="iCo"></div>
+    <div class="fg"><label>பாடல் வரிகள் (Lyrics)</label><textarea id="iL"></textarea></div>
+    <div class="fg"><label>குறிப்புகள் (Notes)</label><input type="text" id="iNo"></div>
+    <div class="fg">
+      <label>Tag (English search keywords)</label>
+      <input type="text" id="iTg" placeholder="e.g. varamal irupparo gnananandhar">
+      <p class="hint">English phonetic keywords for search fallback</p>
     </div>
-    <div class="form-group">
-      <label>பாடல் வரிகள் (Lyrics)</label>
-      <textarea id="fLyrics"></textarea>
+    <div class="fgr">
+      <div class="fg"><label>சேர்த்த தேதி (Date)</label><input type="date" id="iDt"></div>
+      <div class="fg"><label>சேர்த்தவர் (Added by)</label><input type="text" id="iAb"></div>
     </div>
-    <div class="form-group">
-      <label>குறிப்புகள் (Notes)</label>
-      <input type="text" id="fNotes">
-    </div>
-    <div class="form-group">
-      <label>சேர்த்த தேதி (Date Added)</label>
-      <input type="date" id="fDate">
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-save" onclick="saveSong()">✓ சேமிக்கவும்</button>
+    <div class="mact">
+      <button class="bc" onclick="closeModal()">Cancel</button>
+      <button class="bs" onclick="saveSong()">✓ சேமிக்கவும்</button>
     </div>
   </div>
 </div>
 
-<!-- DELETE CONFIRMATION -->
-<div class="delete-overlay" id="deleteOverlay">
-  <div class="delete-dialog">
+<!-- DELETE -->
+<div class="dlo" id="delO" onclick="if(event.target===this)closeDel()">
+  <div class="dld">
     <h3>நீக்கவா?</h3>
-    <p>Are you sure you want to delete<br><span class="song-to-delete" id="deleteSongName"></span>?</p>
-    <div class="delete-actions">
-      <button class="btn-cancel" onclick="closeDeleteDialog()">Cancel</button>
-      <button class="btn-delete-confirm" onclick="confirmDelete()">Delete</button>
+    <p>Delete <span class="dname" id="delName"></span>?</p>
+    <div class="da">
+      <button class="bc" onclick="closeDel()">Cancel</button>
+      <button class="bdc" onclick="confirmDel()">Delete</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
+<!-- ADMIN LOGIN -->
+<div class="login-overlay" id="loginOverlay" onclick="if(event.target===this)closeLogin()">
+  <div class="login-box">
+    <h3>🔐 Admin Login</h3>
+    <p class="login-sub">Enter password to unlock edit mode</p>
+    <input type="password" id="loginPw" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-err" id="loginErr">Incorrect password</div>
+    <div class="mact" style="margin-top:14px;">
+      <button class="bc" onclick="closeLogin()">Cancel</button>
+      <button class="bs" onclick="doLogin()">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIG (admin only) -->
+<div class="cfg-overlay" id="cfgOverlay" onclick="if(event.target===this)closeConfig()">
+  <div class="cfg-panel">
+    <h3>⚙️ Sync Configuration</h3>
+    <p class="cfg-sub">Admin only</p>
+    <div class="fg">
+      <label>Admin Password</label>
+      <input type="password" id="cfgPw" placeholder="Set or change admin password">
+      <p class="hint">Leave empty to keep current password</p>
+    </div>
+    <div class="fg">
+      <label>Google Sheets Apps Script URL</label>
+      <input type="url" id="cfgUrl" placeholder="https://script.google.com/macros/s/.../exec">
+    </div>
+    <div class="fg">
+      <label>Google Form URL (for family)</label>
+      <input type="url" id="cfgForm" placeholder="https://docs.google.com/forms/d/.../viewform">
+    </div>
+    <div id="cfgStatus" class="cfg-status"></div>
+    <div class="mact">
+      <button class="bc" onclick="closeConfig()">Cancel</button>
+      <button class="bs" onclick="testCfg()">Test & Save</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-/* ══════════════════════════════════════════════
-   PHONETIC TRANSLITERATION MAP
-   Tamil ↔ English phonetic mapping
-   ══════════════════════════════════════════════ */
-const PHONETIC_MAP = {
-  // Vowels
-  'அ':'a','ஆ':'aa','இ':'i','ஈ':'ee','உ':'u','ஊ':'oo',
-  'எ':'e','ஏ':'ae','ஐ':'ai','ஒ':'o','ஓ':'oo','ஔ':'au',
-  // Consonants (base)
-  'க':'ka','ங':'nga','ச':'sa','ஞ':'nya','ட':'ta','ண':'na',
-  'த':'tha','ந':'na','ப':'pa','ம':'ma','ய':'ya','ர':'ra',
-  'ல':'la','வ':'va','ழ':'zha','ள':'la','ற':'ra','ன':'na',
-  'ஜ':'ja','ஷ':'sha','ஸ':'sa','ஹ':'ha','க்ஷ':'ksha','ஸ்ரீ':'sri',
-  // Grantha
-  'ஶ':'sha',
-  // Vowel signs
-  'ா':'a','ி':'i','ீ':'ee','ு':'u','ூ':'oo',
-  'ெ':'e','ே':'ae','ை':'ai','ொ':'o','ோ':'oo','ௌ':'au',
-  // Pulli (virama) - removes inherent vowel
-  '்':'',
-};
+/* ═══════════ INDEXEDDB ═══════════ */
+const DB_NAME='BhajanSriDB',DB_VER=2,STORE='songs',CFG='config';
+let db=null;
+function openDB(){return new Promise((res,rej)=>{const rq=indexedDB.open(DB_NAME,DB_VER);rq.onupgradeneeded=e=>{const d=e.target.result;if(!d.objectStoreNames.contains(STORE)){const s=d.createObjectStore(STORE,{keyPath:'id'});s.createIndex('deity','deity',{unique:false});s.createIndex('ragam','ragam',{unique:false});s.createIndex('category','category',{unique:false});s.createIndex('dateAdded','dateAdded',{unique:false});}if(!d.objectStoreNames.contains(CFG)){d.createObjectStore(CFG,{keyPath:'key'});}};rq.onsuccess=e=>{db=e.target.result;res(db);};rq.onerror=e=>rej(e.target.error);});}
+function dbAll(){return new Promise((r,j)=>{const q=db.transaction(STORE,'readonly').objectStore(STORE).getAll();q.onsuccess=()=>r(q.result);q.onerror=()=>j(q.error);});}
+function dbPut(s){return new Promise((r,j)=>{const q=db.transaction(STORE,'readwrite').objectStore(STORE).put(s);q.onsuccess=()=>r();q.onerror=()=>j(q.error);});}
+function dbPutAll(a){return new Promise((r,j)=>{const t=db.transaction(STORE,'readwrite');const s=t.objectStore(STORE);a.forEach(x=>s.put(x));t.oncomplete=()=>r();t.onerror=()=>j(t.error);});}
+function dbDel(id){return new Promise((r,j)=>{const q=db.transaction(STORE,'readwrite').objectStore(STORE).delete(id);q.onsuccess=()=>r();q.onerror=()=>j(q.error);});}
+function dbClear(){return new Promise((r,j)=>{const q=db.transaction(STORE,'readwrite').objectStore(STORE).clear();q.onsuccess=()=>r();q.onerror=()=>j(q.error);});}
+function cfgGet(k){return new Promise((r,j)=>{const q=db.transaction(CFG,'readonly').objectStore(CFG).get(k);q.onsuccess=()=>r(q.result?.value||'');q.onerror=()=>j(q.error);});}
+function cfgSet(k,v){return new Promise((r,j)=>{const q=db.transaction(CFG,'readwrite').objectStore(CFG).put({key:k,value:v});q.onsuccess=()=>r();q.onerror=()=>j(q.error);});}
 
-function tamilToPhonetic(text) {
-  if (!text) return '';
-  let result = '';
-  const chars = [...text];
-  for (let i = 0; i < chars.length; i++) {
-    const ch = chars[i];
-    // Check two-char combos first
-    if (i < chars.length - 1) {
-      const combo = ch + chars[i+1];
-      if (PHONETIC_MAP[combo]) {
-        result += PHONETIC_MAP[combo];
-        i++;
-        continue;
-      }
-    }
-    if (PHONETIC_MAP[ch] !== undefined) {
-      result += PHONETIC_MAP[ch];
-    } else if (/[\u0B80-\u0BFF]/.test(ch)) {
-      // Unknown Tamil char, skip
-    } else {
-      result += ch;
-    }
-  }
-  return result.toLowerCase();
-}
+/* ═══════════ PHONETIC ═══════════ */
+const PM={'அ':'a','ஆ':'aa','இ':'i','ஈ':'ee','உ':'u','ஊ':'oo','எ':'e','ஏ':'ae','ஐ':'ai','ஒ':'o','ஓ':'oo','ஔ':'au','க':'ka','ங':'nga','ச':'sa','ஞ':'nya','ட':'ta','ண':'na','த':'tha','ந':'na','ப':'pa','ம':'ma','ய':'ya','ர':'ra','ல':'la','வ':'va','ழ':'zha','ள':'la','ற':'ra','ன':'na','ஜ':'ja','ஷ':'sha','ஸ':'sa','ஹ':'ha','க்ஷ':'ksha','ஸ்ரீ':'sri','ஶ':'sha','ா':'a','ி':'i','ீ':'ee','ு':'u','ூ':'oo','ெ':'e','ே':'ae','ை':'ai','ொ':'o','ோ':'oo','ௌ':'au','்':''};
+function toPhon(t){if(!t)return'';let r='';const c=[...t];for(let i=0;i<c.length;i++){if(i<c.length-1){const p=c[i]+c[i+1];if(PM[p]!==undefined){r+=PM[p];i++;continue;}}if(PM[c[i]]!==undefined)r+=PM[c[i]];else if(!/[\u0B80-\u0BFF]/.test(c[i]))r+=c[i];}return r.toLowerCase();}
+function mkIdx(s){const raw=[s.name,s.ragam,s.thalam,s.deity,s.category,s.composer,s.lyrics,s.notes].filter(Boolean).join(' ');return{o:raw.toLowerCase(),p:toPhon(raw),t:(s.tag||'').toLowerCase()};}
 
-function buildSearchIndex(song) {
-  const fields = [song.name, song.ragam, song.thalam, song.deity, song.category, song.composer, song.lyrics, song.notes].filter(Boolean).join(' ');
-  const phonetic = tamilToPhonetic(fields);
-  return {
-    original: fields.toLowerCase(),
-    phonetic: phonetic
-  };
-}
+/* ═══════════ STATE ═══════════ */
+const SONGS_JSON='/bhajansri/songs.json';
+let allSongs=[],sIdx={},editId=null,delId=null;
+let sheetsUrl='',formUrl='',adminPw='';
+let isAdmin=false;
 
-/* ══════════════════════════════════════════════
-   APP STATE
-   ══════════════════════════════════════════════ */
-const SONGS_URL = '/bhajansri/songs.json';
-const STORAGE_KEY = 'bhajansri_songs_v2';
-let allSongs = [];
-let searchIndex = {};
-let editingSongId = null;
-let deletingSongId = null;
-
-/* ══════════════════════════════════════════════
-   INIT
-   ══════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-  loadFromStorage();
-  if (allSongs.length === 0) {
-    forceSync();
-  }
-  document.getElementById('searchInput').addEventListener('input', debounce(applyFilters, 200));
+/* ═══════════ INIT ═══════════ */
+document.addEventListener('DOMContentLoaded',async()=>{
+  try{
+    await openDB();
+    sheetsUrl=await cfgGet('sheetsUrl');
+    formUrl=await cfgGet('formUrl');
+    adminPw=await cfgGet('adminPw');
+    updateUI();
+    allSongs=await dbAll();
+    if(allSongs.length===0){setSt('First load — seeding...');await forceSync();}
+    else{rebuildIdx();popFilters();render();setSt('Loaded '+allSongs.length+' songs');}
+  }catch(e){setSt('Error: '+e.message);}
+  document.getElementById('searchInput').addEventListener('input',debounce(render,180));
 });
 
-/* ══════════════════════════════════════════════
-   SYNC FUNCTIONS
-   ══════════════════════════════════════════════ */
-async function forceSync() {
-  const btn = document.getElementById('btnForceSync');
-  btn.classList.add('syncing');
-  btn.innerHTML = '<span class="icon">⏳</span> Syncing...';
-  updateSyncStatus('Force syncing...');
-  try {
-    const resp = await fetch(SONGS_URL + '?t=' + Date.now());
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const data = await resp.json();
-    allSongs = data.songs || [];
-    rebuildIndex();
-    saveToStorage();
-    populateFilters();
-    applyFilters();
-    updateSyncStatus('Force synced: ' + allSongs.length + ' songs loaded');
-    showToast('✓ Force sync complete — ' + allSongs.length + ' songs');
-  } catch (err) {
-    updateSyncStatus('Sync failed: ' + err.message);
-    showToast('✗ Sync failed: ' + err.message);
-  } finally {
-    btn.classList.remove('syncing');
-    btn.innerHTML = '<span class="icon">🔄</span> Force Sync';
+/* ═══════════ ADMIN AUTH ═══════════ */
+function toggleAdmin(){
+  if(isAdmin){
+    // Logout
+    isAdmin=false;
+    document.body.classList.remove('admin');
+    document.getElementById('adminLock').textContent='🔒';
+    document.getElementById('adminLock').classList.remove('unlocked');
+    toast('🔒 Admin locked');
+    render();
+    return;
+  }
+  // If no password set, go straight to config to set one
+  if(!adminPw){openConfig();return;}
+  // Show login
+  document.getElementById('loginPw').value='';
+  document.getElementById('loginErr').style.display='none';
+  document.getElementById('loginOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('loginPw').focus(),200);
+}
+
+function doLogin(){
+  const pw=document.getElementById('loginPw').value;
+  if(pw===adminPw){
+    isAdmin=true;
+    document.body.classList.add('admin');
+    document.getElementById('adminLock').textContent='🔓';
+    document.getElementById('adminLock').classList.add('unlocked');
+    closeLogin();
+    toast('🔓 Admin mode — edit/delete enabled');
+    render();
+  }else{
+    document.getElementById('loginErr').style.display='block';
+    document.getElementById('loginPw').value='';
+    document.getElementById('loginPw').focus();
   }
 }
 
-async function syncLatest() {
-  const btn = document.getElementById('btnSyncLatest');
-  btn.classList.add('syncing');
-  btn.innerHTML = '<span class="icon">⏳</span> Syncing...';
-  updateSyncStatus('Checking for new songs...');
-  try {
-    const resp = await fetch(SONGS_URL + '?t=' + Date.now());
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    const data = await resp.json();
-    const remoteSongs = data.songs || [];
-    const localIds = new Set(allSongs.map(s => s.id));
-    let added = 0;
-    for (const rs of remoteSongs) {
-      if (!localIds.has(rs.id)) {
-        allSongs.push(rs);
-        added++;
+function closeLogin(){document.getElementById('loginOverlay').classList.remove('open');}
+
+/* ═══════════ HYBRID SYNC ═══════════ */
+async function forceSync(){
+  const b=document.getElementById('btnForce');b.classList.add('busy');b.innerHTML='<span class="ico">⏳</span> Syncing...';setSt('Force syncing...');
+  try{
+    // Always load seed from songs.json first
+    let songs=[];
+    try{
+      const r=await fetch(SONGS_JSON+'?t='+Date.now());
+      if(r.ok){const d=await r.json();songs=d.songs||[];}
+    }catch(e){}
+
+    // Then merge Sheet songs on top
+    if(sheetsUrl){
+      try{
+        const r=await fetch(sheetsUrl+'?t='+Date.now());
+        if(r.ok){
+          const d=await r.json();
+          const sheetSongs=d.songs||[];
+          const seedIds=new Set(songs.map(s=>s.id));
+          // Add sheet songs with offset IDs to avoid conflicts
+          sheetSongs.forEach(s=>{
+            s.id=s.id+10000; // Offset sheet IDs
+            if(!seedIds.has(s.id))songs.push(s);
+          });
+        }
+      }catch(e){}
+    }
+
+    await dbClear();await dbPutAll(songs);allSongs=songs;
+    rebuildIdx();popFilters();render();
+    setSt('Synced: '+songs.length+' songs');toast('✓ '+songs.length+' songs loaded');
+  }catch(e){setSt('Failed: '+e.message);toast('✗ '+e.message);}
+  finally{b.classList.remove('busy');b.innerHTML='<span class="ico">🔄</span> Force Sync';}
+}
+
+async function syncLatest(){
+  const b=document.getElementById('btnLatest');b.classList.add('busy');b.innerHTML='<span class="ico">⏳</span> Checking...';setSt('Checking...');
+  try{
+    let added=0;
+
+    // Check songs.json for new songs
+    try{
+      const r=await fetch(SONGS_JSON+'?t='+Date.now());
+      if(r.ok){
+        const d=await r.json();
+        const remote=d.songs||[];
+        const ids=new Set(allSongs.map(s=>s.id));
+        const fresh=remote.filter(s=>!ids.has(s.id));
+        if(fresh.length){await dbPutAll(fresh);allSongs.push(...fresh);added+=fresh.length;}
       }
+    }catch(e){}
+
+    // Check Sheet for new songs
+    if(sheetsUrl){
+      try{
+        const r=await fetch(sheetsUrl+'?t='+Date.now());
+        if(r.ok){
+          const d=await r.json();
+          const sheetSongs=(d.songs||[]).map(s=>({...s,id:s.id+10000}));
+          const ids=new Set(allSongs.map(s=>s.id));
+          const fresh=sheetSongs.filter(s=>!ids.has(s.id));
+          if(fresh.length){await dbPutAll(fresh);allSongs.push(...fresh);added+=fresh.length;}
+        }
+      }catch(e){}
     }
-    rebuildIndex();
-    saveToStorage();
-    populateFilters();
-    applyFilters();
-    if (added > 0) {
-      updateSyncStatus('Added ' + added + ' new song(s)');
-      showToast('✓ ' + added + ' new song(s) added');
-    } else {
-      updateSyncStatus('Already up to date');
-      showToast('✓ Already up to date');
-    }
-  } catch (err) {
-    updateSyncStatus('Sync failed: ' + err.message);
-    showToast('✗ Sync failed: ' + err.message);
-  } finally {
-    btn.classList.remove('syncing');
-    btn.innerHTML = '<span class="icon">☁️</span> Sync Latest Songs';
+
+    rebuildIdx();popFilters();render();
+    if(added>0){setSt(added+' new song(s)');toast('✓ '+added+' added');}
+    else{setSt('Up to date ('+allSongs.length+')');toast('✓ Up to date');}
+  }catch(e){setSt('Failed: '+e.message);toast('✗ '+e.message);}
+  finally{b.classList.remove('busy');b.innerHTML='<span class="ico">☁️</span> Sync Latest Songs';}
+}
+
+/* ═══════════ CONFIG (admin) ═══════════ */
+function openConfig(){
+  document.getElementById('cfgPw').value='';
+  document.getElementById('cfgUrl').value=sheetsUrl;
+  document.getElementById('cfgForm').value=formUrl;
+  document.getElementById('cfgStatus').className='cfg-status';
+  document.getElementById('cfgOverlay').classList.add('open');
+}
+function closeConfig(){document.getElementById('cfgOverlay').classList.remove('open');}
+
+async function testCfg(){
+  const pw=document.getElementById('cfgPw').value.trim();
+  const u=document.getElementById('cfgUrl').value.trim();
+  const f=document.getElementById('cfgForm').value.trim();
+  const st=document.getElementById('cfgStatus');
+
+  // Test Sheet URL if provided
+  if(u){
+    st.className='cfg-status';st.textContent='Testing...';st.style.display='block';
+    try{const r=await fetch(u+'?t='+Date.now());if(!r.ok)throw new Error('HTTP '+r.status);const d=await r.json();if(!d.songs)throw new Error('No songs array');st.className='cfg-status ok';st.textContent='✓ Found '+d.songs.length+' songs';}
+    catch(e){st.className='cfg-status err';st.textContent='✗ '+e.message;return;}
   }
+
+  // Save config
+  if(pw){adminPw=pw;await cfgSet('adminPw',pw);}
+  sheetsUrl=u;formUrl=f;
+  await cfgSet('sheetsUrl',u);await cfgSet('formUrl',f);
+  updateUI();
+
+  // Auto-unlock admin if password was just set
+  if(pw&&!isAdmin){
+    isAdmin=true;
+    document.body.classList.add('admin');
+    document.getElementById('adminLock').textContent='🔓';
+    document.getElementById('adminLock').classList.add('unlocked');
+  }
+
+  toast('✓ Config saved');setTimeout(closeConfig,700);
 }
 
-/* ══════════════════════════════════════════════
-   STORAGE
-   ══════════════════════════════════════════════ */
-function saveToStorage() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(allSongs));
-  } catch(e) { console.warn('Storage save failed', e); }
+function updateUI(){
+  // Source info (admin only)
+  const si=document.getElementById('srcInfo');
+  if(sheetsUrl){si.textContent='Source: songs.json + Google Sheets &bull; ⚙️';}
+  else{si.textContent='Source: songs.json &bull; Tap ⚙️ to configure Google Sheets';}
+
+  // Form bar (visible to everyone when configured)
+  const fb=document.getElementById('formBar');
+  if(formUrl){
+    fb.innerHTML='📝 <a href="'+formUrl+'" target="_blank">Add a new song via Google Form</a>';
+    fb.classList.add('v');
+  }else{fb.classList.remove('v');}
+
+  // FAB behavior
+  updateFab();
 }
 
-function loadFromStorage() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      allSongs = JSON.parse(raw);
-      rebuildIndex();
-      populateFilters();
-      applyFilters();
-    }
-  } catch(e) { console.warn('Storage load failed', e); }
+function updateFab(){
+  const fab=document.getElementById('fab');
+  if(isAdmin){fab.textContent='+';fab.title='Add new song';}
+  else if(formUrl){fab.textContent='📝';fab.title='Add song via Form';}
+  else{fab.textContent='+';fab.title='Add new song';}
 }
 
-/* ══════════════════════════════════════════════
-   INDEX & FILTER
-   ══════════════════════════════════════════════ */
-function rebuildIndex() {
-  searchIndex = {};
-  allSongs.forEach(s => { searchIndex[s.id] = buildSearchIndex(s); });
+function fabAction(){
+  if(isAdmin){openAdd();return;}
+  if(formUrl){window.open(formUrl,'_blank');return;}
+  // No form, no admin — prompt login
+  toast('🔒 Login as admin to add songs');
 }
 
-function populateFilters() {
-  const sets = { ragam: new Set(), thalam: new Set(), deity: new Set(), category: new Set() };
-  allSongs.forEach(s => {
-    if (s.ragam) sets.ragam.add(s.ragam);
-    if (s.thalam) sets.thalam.add(s.thalam);
-    if (s.deity) sets.deity.add(s.deity);
-    if (s.category) sets.category.add(s.category);
-  });
-  fillSelect('filterRagam', '🎵 All Ragam', sets.ragam);
-  fillSelect('filterThalam', '🥁 All Thalam', sets.thalam);
-  fillSelect('filterDeity', '🪔 All Deity', sets.deity);
-  fillSelect('filterCategory', '📂 All Category', sets.category);
+/* ═══════════ INDEX & RENDER ═══════════ */
+function rebuildIdx(){sIdx={};allSongs.forEach(s=>{sIdx[s.id]=mkIdx(s);});}
+function popFilters(){
+  const s={r:new Set(),t:new Set(),d:new Set(),c:new Set()};
+  allSongs.forEach(x=>{if(x.ragam)s.r.add(x.ragam);if(x.thalam)s.t.add(x.thalam);if(x.deity)s.d.add(x.deity);if(x.category)s.c.add(x.category);});
+  fill('fR','🎵 All Ragam',s.r);fill('fT','🥁 All Thalam',s.t);fill('fD','🪔 All Deity',s.d);fill('fC','📂 All Category',s.c);
 }
+function fill(id,lbl,set){const el=document.getElementById(id);const c=el.value;el.innerHTML='<option value="">'+lbl+'</option>';[...set].sort().forEach(v=>{el.innerHTML+='<option value="'+esc(v)+'">'+esc(v)+'</option>';});el.value=c;}
 
-function fillSelect(id, allLabel, valuesSet) {
-  const sel = document.getElementById(id);
-  const current = sel.value;
-  sel.innerHTML = '<option value="">' + allLabel + '</option>';
-  [...valuesSet].sort().forEach(v => {
-    sel.innerHTML += '<option value="' + escHtml(v) + '">' + escHtml(v) + '</option>';
-  });
-  sel.value = current;
-}
-
-function applyFilters() {
-  const query = document.getElementById('searchInput').value.trim().toLowerCase();
-  const ragam = document.getElementById('filterRagam').value;
-  const thalam = document.getElementById('filterThalam').value;
-  const deity = document.getElementById('filterDeity').value;
-  const category = document.getElementById('filterCategory').value;
-
-  // Clear button
-  document.getElementById('clearSearch').classList.toggle('visible', query.length > 0);
-
-  const hasFilters = ragam || thalam || deity || category || query;
-  document.getElementById('clearFiltersBtn').classList.toggle('visible', !!hasFilters);
-
-  const phoneticQuery = tamilToPhonetic(query);
-
-  let filtered = allSongs.filter(s => {
-    if (ragam && s.ragam !== ragam) return false;
-    if (thalam && s.thalam !== thalam) return false;
-    if (deity && s.deity !== deity) return false;
-    if (category && s.category !== category) return false;
-    if (query) {
-      const idx = searchIndex[s.id];
-      if (!idx) return false;
-      const matchOriginal = idx.original.includes(query);
-      const matchPhonetic = idx.phonetic.includes(phoneticQuery);
-      // Also try direct English in original
-      const matchEnglish = idx.original.includes(phoneticQuery);
-      if (!matchOriginal && !matchPhonetic && !matchEnglish) return false;
-    }
+function render(){
+  const q=document.getElementById('searchInput').value.trim().toLowerCase();
+  const fr=document.getElementById('fR').value,ft=document.getElementById('fT').value,fd=document.getElementById('fD').value,fc=document.getElementById('fC').value;
+  document.getElementById('clearSearch').classList.toggle('v',q.length>0);
+  const hf=fr||ft||fd||fc||q;document.getElementById('fClr').classList.toggle('v',!!hf);
+  const pq=toPhon(q);
+  let list=allSongs.filter(s=>{
+    if(fr&&s.ragam!==fr)return false;if(ft&&s.thalam!==ft)return false;if(fd&&s.deity!==fd)return false;if(fc&&s.category!==fc)return false;
+    if(q){const ix=sIdx[s.id];if(!ix)return false;if(!ix.o.includes(q)&&!ix.p.includes(pq)&&!ix.t.includes(q)&&!ix.o.includes(pq))return false;}
     return true;
   });
-
-  // Sort by dateAdded descending
-  filtered.sort((a,b) => (b.dateAdded || '').localeCompare(a.dateAdded || ''));
-
-  renderSongs(filtered);
-  document.getElementById('songCount').textContent = allSongs.length + ' பாடல்கள்';
-  document.getElementById('filterStatus').textContent = hasFilters
-    ? 'Showing ' + filtered.length + ' of ' + allSongs.length + ' songs'
-    : 'Showing all ' + allSongs.length + ' songs';
+  list.sort((a,b)=>(b.dateAdded||'').localeCompare(a.dateAdded||''));
+  renderCards(list);
+  document.getElementById('songCount').textContent=allSongs.length+' பாடல்கள்';
+  document.getElementById('filterSt').textContent=hf?'Showing '+list.length+' of '+allSongs.length:'All '+allSongs.length+' songs';
+  updateFab();
 }
 
-function clearSearch() {
-  document.getElementById('searchInput').value = '';
-  applyFilters();
-}
-
-function clearAllFilters() {
-  document.getElementById('searchInput').value = '';
-  document.getElementById('filterRagam').value = '';
-  document.getElementById('filterThalam').value = '';
-  document.getElementById('filterDeity').value = '';
-  document.getElementById('filterCategory').value = '';
-  applyFilters();
-}
-
-/* ══════════════════════════════════════════════
-   RENDER SONGS
-   ══════════════════════════════════════════════ */
-function renderSongs(songs) {
-  const container = document.getElementById('songList');
-  if (songs.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="icon">🎵</div>
-        <p>No songs found.</p>
-        <p>Try different search terms or sync songs.</p>
-      </div>`;
-    return;
-  }
-
-  container.innerHTML = songs.map((s, i) => `
-    <div class="song-card" id="card-${s.id}" style="animation-delay:${Math.min(i*0.04,0.5)}s" onclick="toggleLyrics(${s.id}, event)">
-      <div class="song-card-header">
-        <div class="song-name">${escHtml(s.name)}</div>
-        <div class="song-actions">
-          <button class="btn-edit" onclick="openEditModal(${s.id}, event)" title="Edit">✏️</button>
-          <button class="btn-delete" onclick="openDeleteDialog(${s.id}, event)" title="Delete">🗑️</button>
+function renderCards(songs){
+  const el=document.getElementById('songList');
+  if(!songs.length){el.innerHTML='<div class="empty"><div class="eico">🎵</div><p>No songs found.</p><p>Try different search or sync.</p></div>';return;}
+  el.innerHTML=songs.map((s,i)=>`
+    <div class="sc" id="c${s.id}" style="animation-delay:${Math.min(i*.035,.6)}s" onclick="togLyr(${s.id},event)">
+      <div class="sc-top">
+        <div class="sc-name">${esc(s.name)}</div>
+        <div class="sc-acts">
+          <button class="be" onclick="openEdit(${s.id},event)" title="Edit">✏️</button>
+          <button class="bd" onclick="openDel(${s.id},event)" title="Delete">🗑️</button>
         </div>
       </div>
-      <div class="song-meta-badges">
-        ${s.ragam ? '<span class="badge badge-ragam">🎵 ' + escHtml(s.ragam) + '</span>' : ''}
-        ${s.thalam ? '<span class="badge badge-thalam">🥁 ' + escHtml(s.thalam) + '</span>' : ''}
-        ${s.deity ? '<span class="badge badge-deity">🪔 ' + escHtml(s.deity) + '</span>' : ''}
-        ${s.category ? '<span class="badge badge-category">📂 ' + escHtml(s.category) + '</span>' : ''}
+      <div class="sc-badges">
+        ${s.ragam&&s.ragam!=='Unknown'?'<span class="bg bg-r">🎵 '+esc(s.ragam)+'</span>':''}
+        ${s.thalam&&s.thalam!=='Unknown'?'<span class="bg bg-t">🥁 '+esc(s.thalam)+'</span>':''}
+        ${s.deity?'<span class="bg bg-d">🪔 '+esc(s.deity)+'</span>':''}
+        ${s.category?'<span class="bg bg-c">📂 '+esc(s.category)+'</span>':''}
+        ${s.tag?'<span class="bg bg-tag">🏷️ '+esc(s.tag)+'</span>':''}
       </div>
-      <div class="song-lyrics-section">
-        <div class="song-lyrics">${escHtml(s.lyrics || 'No lyrics available')}</div>
-        ${s.notes ? '<div class="song-notes">📝 ' + escHtml(s.notes) + '</div>' : ''}
-        <div class="song-date">Added: ${s.dateAdded || 'N/A'}</div>
+      <div class="sc-lyr">
+        <div class="lyr">${esc(s.lyrics||'No lyrics')}</div>
+        ${s.notes?'<div class="lnote">📝 '+esc(s.notes)+'</div>':''}
+        <div class="ldate">Added: ${s.dateAdded||'N/A'}${s.addedBy?' &bull; by '+esc(s.addedBy):''}</div>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
+function togLyr(id,e){if(e.target.closest('.sc-acts'))return;document.getElementById('c'+id)?.classList.toggle('exp');}
 
-function toggleLyrics(id, e) {
-  if (e.target.closest('.song-actions')) return;
-  const card = document.getElementById('card-' + id);
-  if (card) card.classList.toggle('expanded');
+/* ═══════════ CRUD (admin only) ═══════════ */
+function openAdd(){if(!isAdmin){toast('🔒 Admin required');return;}editId=null;document.getElementById('mTitle').textContent='✦ புதிய பாடல் சேர்க்கவும் ✦';clrForm();document.getElementById('iDt').value=new Date().toISOString().split('T')[0];document.getElementById('modal').classList.add('open');}
+function openEdit(id,e){
+  e.stopPropagation();if(!isAdmin)return;editId=id;const s=allSongs.find(x=>x.id===id);if(!s)return;
+  document.getElementById('mTitle').textContent='✏️ பாடல் திருத்தவும்';
+  document.getElementById('iN').value=s.name||'';document.getElementById('iR').value=s.ragam||'';
+  document.getElementById('iT').value=s.thalam||'';document.getElementById('iD').value=s.deity||'';
+  document.getElementById('iC').value=s.category||'';document.getElementById('iCo').value=s.composer||'';
+  document.getElementById('iL').value=s.lyrics||'';document.getElementById('iNo').value=s.notes||'';
+  document.getElementById('iTg').value=s.tag||'';document.getElementById('iDt').value=s.dateAdded||'';
+  document.getElementById('iAb').value=s.addedBy||'';
+  document.getElementById('modal').classList.add('open');
 }
-
-/* ══════════════════════════════════════════════
-   ADD / EDIT SONG
-   ══════════════════════════════════════════════ */
-function openAddModal() {
-  editingSongId = null;
-  document.getElementById('modalTitle').textContent = '✦ புதிய பாடல் சேர்க்கவும் ✦';
-  clearForm();
-  document.getElementById('fDate').value = new Date().toISOString().split('T')[0];
-  document.getElementById('modalOverlay').classList.add('open');
+function closeModal(){document.getElementById('modal').classList.remove('open');editId=null;}
+async function saveSong(){
+  const nm=document.getElementById('iN').value.trim();if(!nm){toast('⚠ Song name required');return;}
+  const d={name:nm,ragam:document.getElementById('iR').value.trim()||'Unknown',thalam:document.getElementById('iT').value.trim()||'ஆதி',deity:document.getElementById('iD').value,category:document.getElementById('iC').value,composer:document.getElementById('iCo').value.trim()||'Unknown',lyrics:document.getElementById('iL').value.trim(),notes:document.getElementById('iNo').value.trim(),tag:document.getElementById('iTg').value.trim(),dateAdded:document.getElementById('iDt').value||new Date().toISOString().split('T')[0],addedBy:document.getElementById('iAb').value.trim()};
+  try{
+    if(editId!==null){d.id=editId;await dbPut(d);const i=allSongs.findIndex(s=>s.id===editId);if(i>=0)allSongs[i]=d;toast('✓ Updated');}
+    else{d.id=allSongs.reduce((m,s)=>Math.max(m,s.id||0),0)+1;await dbPut(d);allSongs.push(d);toast('✓ Added');}
+    rebuildIdx();popFilters();render();closeModal();
+  }catch(e){toast('✗ '+e.message);}
 }
+function clrForm(){['iN','iR','iT','iCo','iL','iNo','iTg','iDt','iAb'].forEach(id=>document.getElementById(id).value='');document.getElementById('iD').value='';document.getElementById('iC').value='';}
+function openDel(id,e){e.stopPropagation();if(!isAdmin)return;delId=id;document.getElementById('delName').textContent=(allSongs.find(x=>x.id===id)||{}).name||'';document.getElementById('delO').classList.add('open');}
+function closeDel(){document.getElementById('delO').classList.remove('open');delId=null;}
+async function confirmDel(){if(delId===null)return;try{await dbDel(delId);allSongs=allSongs.filter(s=>s.id!==delId);delete sIdx[delId];popFilters();render();closeDel();toast('✓ Deleted');}catch(e){toast('✗ '+e.message);}}
 
-function openEditModal(id, e) {
-  e.stopPropagation();
-  editingSongId = id;
-  const song = allSongs.find(s => s.id === id);
-  if (!song) return;
-  document.getElementById('modalTitle').textContent = '✏️ பாடல் திருத்தவும்';
-  document.getElementById('fName').value = song.name || '';
-  document.getElementById('fRagam').value = song.ragam || '';
-  document.getElementById('fThalam').value = song.thalam || '';
-  document.getElementById('fDeity').value = song.deity || '';
-  document.getElementById('fCategory').value = song.category || '';
-  document.getElementById('fComposer').value = song.composer || '';
-  document.getElementById('fLyrics').value = song.lyrics || '';
-  document.getElementById('fNotes').value = song.notes || '';
-  document.getElementById('fDate').value = song.dateAdded || '';
-  document.getElementById('modalOverlay').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  editingSongId = null;
-}
-
-function saveSong() {
-  const name = document.getElementById('fName').value.trim();
-  if (!name) {
-    showToast('⚠ Song name is required');
-    return;
-  }
-
-  const songData = {
-    name: name,
-    ragam: document.getElementById('fRagam').value.trim() || 'Unknown',
-    thalam: document.getElementById('fThalam').value.trim() || 'ஆதி',
-    deity: document.getElementById('fDeity').value.trim() || '',
-    category: document.getElementById('fCategory').value || '',
-    composer: document.getElementById('fComposer').value.trim() || 'Unknown',
-    lyrics: document.getElementById('fLyrics').value.trim(),
-    notes: document.getElementById('fNotes').value.trim(),
-    dateAdded: document.getElementById('fDate').value || new Date().toISOString().split('T')[0],
-  };
-
-  if (editingSongId !== null) {
-    const idx = allSongs.findIndex(s => s.id === editingSongId);
-    if (idx >= 0) {
-      allSongs[idx] = { ...allSongs[idx], ...songData };
-      showToast('✓ Song updated');
-    }
-  } else {
-    const maxId = allSongs.reduce((max, s) => Math.max(max, s.id || 0), 0);
-    songData.id = maxId + 1;
-    allSongs.push(songData);
-    showToast('✓ Song added');
-  }
-
-  rebuildIndex();
-  saveToStorage();
-  populateFilters();
-  applyFilters();
-  closeModal();
-}
-
-function clearForm() {
-  ['fName','fRagam','fThalam','fDeity','fComposer','fLyrics','fNotes','fDate'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('fCategory').value = '';
-}
-
-/* ══════════════════════════════════════════════
-   DELETE SONG
-   ══════════════════════════════════════════════ */
-function openDeleteDialog(id, e) {
-  e.stopPropagation();
-  deletingSongId = id;
-  const song = allSongs.find(s => s.id === id);
-  document.getElementById('deleteSongName').textContent = song ? song.name : '';
-  document.getElementById('deleteOverlay').classList.add('open');
-}
-
-function closeDeleteDialog() {
-  document.getElementById('deleteOverlay').classList.remove('open');
-  deletingSongId = null;
-}
-
-function confirmDelete() {
-  if (deletingSongId === null) return;
-  allSongs = allSongs.filter(s => s.id !== deletingSongId);
-  delete searchIndex[deletingSongId];
-  saveToStorage();
-  populateFilters();
-  applyFilters();
-  closeDeleteDialog();
-  showToast('✓ Song deleted');
-}
-
-/* ══════════════════════════════════════════════
-   UTILITIES
-   ══════════════════════════════════════════════ */
-function escHtml(str) {
-  if (!str) return '';
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-function updateSyncStatus(msg) {
-  document.getElementById('syncStatus').textContent = msg + ' — ' + new Date().toLocaleTimeString();
-}
-
-function debounce(fn, ms) {
-  let timer;
-  return function(...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, args), ms);
-  };
-}
-
-// Close modals on overlay click
-document.getElementById('modalOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-document.getElementById('deleteOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeDeleteDialog();
-});
-
-// Service Worker registration
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/bhajansri/sw.js').catch(() => {});
-}
+/* ═══════════ UTILS ═══════════ */
+function clearSearch(){document.getElementById('searchInput').value='';render();}
+function clearAll(){document.getElementById('searchInput').value='';['fR','fT','fD','fC'].forEach(id=>document.getElementById(id).value='');render();}
+function esc(s){if(!s)return'';const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400);}
+function setSt(m){document.getElementById('syncStatus').textContent=m+' — '+new Date().toLocaleTimeString();}
+function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/bhajansri/sw.js').catch(()=>{});}
 </script>
 </body>
 </html>
