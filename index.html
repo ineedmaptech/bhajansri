@@ -306,10 +306,12 @@ body.admin .sc-acts{display:flex;}
     <div class="fg">
       <label>Google Sheets Apps Script URL</label>
       <input type="url" id="cfgUrl" placeholder="https://script.google.com/macros/s/.../exec">
+      <p class="hint" id="hintUrl" style="color:var(--vermillion);display:none;">⚠ This looks like a Google Form URL — please check you have the right URL in this field.</p>
     </div>
     <div class="fg">
       <label>Google Form URL (for family)</label>
       <input type="url" id="cfgForm" placeholder="https://docs.google.com/forms/d/.../viewform">
+      <p class="hint" id="hintForm" style="color:var(--vermillion);display:none;">⚠ This looks like an Apps Script URL — please check you have the right URL in this field.</p>
     </div>
     <div id="cfgStatus" class="cfg-status"></div>
     <div class="mact">
@@ -479,7 +481,17 @@ function openConfig(){
   document.getElementById('cfgUrl').value=sheetsUrl;
   document.getElementById('cfgForm').value=formUrl;
   document.getElementById('cfgStatus').className='cfg-status';
+  document.getElementById('cfgStatus').style.display='none';
   document.getElementById('cfgOverlay').classList.add('open');
+  // Live URL type warnings
+  document.getElementById('cfgUrl').oninput=function(){
+    const v=this.value;
+    document.getElementById('hintUrl').style.display=(v&&v.includes('docs.google.com/forms'))?'block':'none';
+  };
+  document.getElementById('cfgForm').oninput=function(){
+    const v=this.value;
+    document.getElementById('hintForm').style.display=(v&&v.includes('script.google.com'))?'block':'none';
+  };
 }
 function closeConfig(){document.getElementById('cfgOverlay').classList.remove('open');}
 
@@ -488,6 +500,14 @@ async function testCfg(){
   const u=document.getElementById('cfgUrl').value.trim();
   const f=document.getElementById('cfgForm').value.trim();
   const st=document.getElementById('cfgStatus');
+
+  // Cross-validate: warn if URLs look swapped
+  if(u && u.includes('docs.google.com/forms')){
+    st.className='cfg-status err';st.textContent='✗ Apps Script field has a Google Form URL — please swap them.';st.style.display='block';return;
+  }
+  if(f && f.includes('script.google.com')){
+    st.className='cfg-status err';st.textContent='✗ Google Form field has an Apps Script URL — please swap them.';st.style.display='block';return;
+  }
 
   // Test Sheet URL if provided
   if(u){
